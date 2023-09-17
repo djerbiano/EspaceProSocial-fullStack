@@ -13,6 +13,7 @@ const HeaderContainer = styled.nav`
   top: 0;
   z-index: 1;
   background-color: #f5f5f5;
+
 `;
 
 const LogoContainer = styled.div`

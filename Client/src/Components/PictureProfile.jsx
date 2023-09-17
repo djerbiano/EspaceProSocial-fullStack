@@ -102,8 +102,8 @@ function PictureProfile() {
       <hr width="90%" color="#d5dce4" size="3" />
       <ContainerLinks>
         <Links>
-          <Link href="/">Accueil</Link>
-          <Link href="/">Mes publications</Link>
+          <Link href="/home">Accueil</Link>
+          <Link href="/profile">Mes publications</Link>
           <Link href="/">A propos</Link>
           <Link href="/">Ami(e)s</Link>
         </Links>
