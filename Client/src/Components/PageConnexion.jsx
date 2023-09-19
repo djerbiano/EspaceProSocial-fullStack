@@ -1,5 +1,7 @@
+import { useState } from "react";
 import styled from "styled-components";
 import logo from "../Assets/home-logo.jpg";
+import { useNavigate } from "react-router-dom";
 
 const PageContainer = styled.div`
   display: flex;
@@ -71,28 +73,83 @@ const Link = styled.a`
     transform: scale(1.05);
   }
 `;
+const ErrorMessage = styled.p`
+  color: red;
+`;
 
 function PageConnexion() {
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => {
+            throw new Error(data.message);
+          });
+        }
+        return res.json();
+      })
+      .then((data) => {
+        sessionStorage.setItem("token", data[2].token);
+        sessionStorage.setItem("userId", data[1]._id);
+        navigate("/home");
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
+
   return (
     <PageContainer>
       <LogoContainer>
         <LogoImage src={logo} alt="" />
       </LogoContainer>
       <RegisterContainer>
-        <FormContainer>
-          <label for="email">Email :</label>
-          <InputField type="text" id="email" placeholder="Email" />
-          <label for="password">Mot de passe :</label>
+        <FormContainer onSubmit={handleSubmit} method="post">
+          <label htmlFor="email">Email :</label>
+          <InputField
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+          />
+          <label htmlFor="password">Mot de passe :</label>
           <InputField
             type="password"
             id="password"
+            name="password"
             placeholder="Mot de passe"
+            onChange={handleChange}
           />
           <SubmitButton type="submit" value="Se connecter" />
           <LinksContainer>
             <Link href="/Register">S'inscrire</Link>
             <Link href="/ResetPassword">Mot de passe oublié ?</Link>
           </LinksContainer>
+          <ErrorMessage>{error ? error.message : ""}</ErrorMessage>
         </FormContainer>
       </RegisterContainer>
     </PageContainer>

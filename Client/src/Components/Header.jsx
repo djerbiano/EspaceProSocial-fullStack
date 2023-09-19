@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BiLogOut } from "react-icons/bi";
 import logo from "../Assets/logo.png";
-import logoP from "../Assets/241797244_104171222015366_3120803360430035354_n.jpg";
+import { useEffect, useState } from "react";
 
 const HeaderContainer = styled.nav`
   display: flex;
@@ -13,7 +13,6 @@ const HeaderContainer = styled.nav`
   top: 0;
   z-index: 1;
   background-color: #f5f5f5;
-
 `;
 
 const LogoContainer = styled.div`
@@ -73,6 +72,24 @@ const LogOutSpan = styled.span`
   color: #27a7fc;
 `;
 function Header() {
+  const [avatar, setAvatar] = useState("");
+  const id = sessionStorage.getItem("userId");
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/users/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAvatar(data.avatar);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
+
   return (
     <HeaderContainer>
       <LogoContainer>
@@ -90,7 +107,10 @@ function Header() {
         </form>
       </SearchBarContainer>
       <ProfileContainer>
-        <ProfileImage src={logoP} alt="profile" />
+      <a href="/profile">
+      <ProfileImage src={`http://localhost:3000/${avatar}`} alt={avatar} />
+    
+      </a>
       </ProfileContainer>
       <LogOutContainer>
         <a href="/">

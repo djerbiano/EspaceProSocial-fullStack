@@ -18,11 +18,6 @@ function Posts() {
     <ContainerPosts>
       <SinglePost>
         <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
       </SinglePost>
     </ContainerPosts>
   );

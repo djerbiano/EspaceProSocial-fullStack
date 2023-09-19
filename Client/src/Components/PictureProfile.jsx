@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import logo from "../Assets/ph .jpg";
 
 const ContainerPictureProfile = styled.div`
   width: 100%;
@@ -86,11 +86,28 @@ const Link = styled.a`
   }
 `;
 function PictureProfile() {
+  const [avatar, setAvatar] = useState("");
+  const id = sessionStorage.getItem("userId");
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/users/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAvatar(data.avatar);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
   return (
     <ContainerPictureProfile>
       <ContPictureProfile>
         <ProfilePicture>
-          <ProfileImage src={logo} alt="profile" />
+          <ProfileImage src={`http://localhost:3000/${avatar}`} alt={avatar} />
         </ProfilePicture>
 
         <UpdateProfile>
