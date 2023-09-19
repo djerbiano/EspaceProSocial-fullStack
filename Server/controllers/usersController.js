@@ -129,7 +129,7 @@ const controller = {
             process.env.JWT_SECRET_KEY,
             { expiresIn: "5h" }
           );
-          const { _id, password, updatedAt, __v, ...other } = user._doc;
+          const { password, updatedAt, __v, ...other } = user._doc;
           return res
             .status(200)
             .json([

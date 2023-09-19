@@ -57,35 +57,28 @@
       top: 40px;
       left: 40px;
     }
-    .containerError {
-      width: 300px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
-    p {
-      color: red;
-      font-size: 1.2rem;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-    }
   </style>
   <body>
     <section class="containerRegister">
       <div class="register">
         <div class="title">
-          <h1>Mot de passe oublié</h1>
+          <h1>S'inscrire</h1>
         </div>
         <a class="back" href="/"
           ><span class="material-symbols-outlined"> arrow_back_ios </span></a
         >
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
+          <label for="userName">Nom d'utilisateur :</label>
+          <input type="text" id="userName" name="userName" placeholder="Nom d'utilisateur" />
+          <label for="birthday">Date de naissance :</label>
+          <input type="date" id="birthday" value="2023-01-01" />
           <label for="email">Email :</label>
           <input type="text" id="email" name="email" placeholder="Email" />
-
-          <input type="submit" value="Envoyer" />
-          <div class="containerError">
-            <p><% if (errorMessage) { %> <%- errorMessage %> <% } %></p>
-          </div>
+          <label for="avatar">Photo de profil :</label>
+          <input type="file" id="avatar" name="image"/>
+          <label for="password">Mot de passe :</label>
+          <input type="password" id="password" name="password" placeholder="Mot de passe" />
+          <input type="submit" value="S'inscrire" />
         </form>
       </div>
     </section>

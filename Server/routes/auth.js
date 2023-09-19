@@ -5,9 +5,11 @@ const route = express.Router();
 const mult = require("../middlewares/multer");
 
 // Register user
+
 route.post("/register", mult, controller.registerUser);
 
 // Login user
+
 route.post("/login", controller.loginUser);
 
 //Reset password

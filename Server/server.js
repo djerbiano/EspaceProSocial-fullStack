@@ -29,7 +29,8 @@ server.use(logger);
 
 // Routes
 server.get("/", (req, res) => {
-  res.status(200).send("<h1>Welcom to the home page</h1>");
+  let errorMessage = "";
+  res.render("index", { errorMessage });
 });
 server.use("/api/auth", authRoute);
 server.use("/api/users", userRoute);
