@@ -4,6 +4,7 @@ import Header from "./Header";
 import SetPost from "./SetPost";
 import Friends from "./Friends";
 import Posts from "./Posts";
+import IntroProfilePage from "./IntroProfilePage";
 
 const ContainerProfile = styled.div`
   width: 100%;
@@ -12,29 +13,37 @@ const ContainerIntroAndSetPost = styled.nav`
   width: 100%;
   height: 35vh;
   display: flex;
-  background-color: aqua;
+  margin: 20px 0;
 `;
 
 const IntroContent = styled.nav`
   width: 30%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(114, 109, 109);
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
   margin-right: 10%;
 `;
 
 const ContainerFreindsAndPosts = styled.div`
   width: 100%;
   display: flex;
-  background-color: rgb(116, 216, 216);
+  box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 `;
 const ContainerFriends = styled.div`
-  width: 20%;
-  min-height: 80vh;
-  background-color: red;
+  width: 300px;
+  min-height: 200px;
+  max-height: 700px;
+  padding: 20px;
+
+  & > * {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const ContainerPosts = styled.div`
@@ -48,9 +57,7 @@ function Profile() {
         <PictureProfile />
         <ContainerIntroAndSetPost>
           <IntroContent>
-            <h1>userName</h1>
-            <p>Date de création</p>
-            <p>En ligne</p>
+            <IntroProfilePage />
           </IntroContent>
           <SetPost />
         </ContainerIntroAndSetPost>

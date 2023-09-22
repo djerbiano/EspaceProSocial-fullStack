@@ -8,13 +8,18 @@ const ContainerSetPost = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(196, 101, 101);
+  border-radius: 5px;
 `;
 
-const Form = styled.form``;
+const Form = styled.form`
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+`;
 
 const SubmitButton = styled.input`
-  width: 20%;
+  width: 15%;
   height: 25px;
   background-color: #d5dce4;
   border: none;
@@ -27,14 +32,13 @@ const TextArea = styled.textarea`
   height: 100px;
   resize: none;
   background-color: #f5f5f5;
-  border: none;
   border-radius: 5px;
+  padding: 10px;
 `;
 
 const FileInput = styled.input`
   width: 90%;
   height: 25px;
-  border-radius: 5px;
 `;
 const ErrorMessage = styled.p`
   color: red;

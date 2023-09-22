@@ -7,7 +7,7 @@ const ContainerPosts = styled.div`
   align-items: center;
   width: 100%;
   min-height: 500px;
-  background-color: rgb(214, 148, 26);
+  border-radius: 5px;
 `;
 
 const SinglePost = styled.div`

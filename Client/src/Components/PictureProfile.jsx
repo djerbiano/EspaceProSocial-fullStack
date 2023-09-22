@@ -122,7 +122,7 @@ function PictureProfile() {
           <Link href="/home">Accueil</Link>
           <Link href="/profile">Mes publications</Link>
           <Link href="/">A propos</Link>
-          <Link href="/">Ami(e)s</Link>
+          <Link href="/amies">Ami(e)s</Link>
         </Links>
       </ContainerLinks>
     </ContainerPictureProfile>
