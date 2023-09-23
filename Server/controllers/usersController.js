@@ -49,6 +49,33 @@ const controller = {
     }
   },
 
+
+  //search user
+  searchUser: async (req, res) => {
+    try {
+      const users = await User.find({
+        userName: { $regex: new RegExp(req.params.userName, "i") },
+      });
+
+      if (users.length > 0) {
+        const filteredUsers = users.map((user) => {
+          const { password, updatedAt, __v, ...other } = user._doc;
+          return other;
+        });
+
+        return res.status(200).json(filteredUsers);
+      } else {
+        return res
+          .status(404)
+          .json({ message: `User : ${req.params.userName} not found` });
+      }
+    } catch (error) {
+      return res
+        .status(400)
+        .json({ message: `User : ${req.params.userName} not found` });
+    }
+  },
+
   // Register user
   registerUser: async (req, res) => {
     const { error } = validateRegisterUser(req.body);
