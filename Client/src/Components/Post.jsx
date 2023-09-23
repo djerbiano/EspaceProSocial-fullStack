@@ -143,7 +143,7 @@ function Post() {
       )}
       <DatePost>
         {userId === post.author && (
-          <DeletePost href="/home" onClick={() => handleDeleteClick(post._id)}>
+          <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
             <MdDeleteForever />
           </DeletePost>
         )}

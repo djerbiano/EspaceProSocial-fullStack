@@ -98,7 +98,7 @@ function Header() {
         </a>
       </LogoContainer>
       <SearchBarContainer>
-        <form action="http://localhost:3000/api/users/query" method="get">
+        <form method="get">
           <SearchInput
             type="text"
             placeholder="Rechercher un utilisateur"
@@ -107,10 +107,9 @@ function Header() {
         </form>
       </SearchBarContainer>
       <ProfileContainer>
-      <a href="/profile">
-      <ProfileImage src={`http://localhost:3000/${avatar}`} alt={avatar} />
-    
-      </a>
+        <a href="/profile">
+          <ProfileImage src={`http://localhost:3000/${avatar}`} alt={avatar} />
+        </a>
       </ProfileContainer>
       <LogOutContainer>
         <a href="/">

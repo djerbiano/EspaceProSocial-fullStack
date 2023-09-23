@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate  } from "react-router-dom";
 import styled from "styled-components";
 
 const ContainerPictureProfile = styled.div`
@@ -88,6 +89,10 @@ const Link = styled.a`
 function PictureProfile() {
   const [avatar, setAvatar] = useState("");
   const id = sessionStorage.getItem("userId");
+  const navigate = useNavigate();
+  const handleUpdateProfileClick = () => {
+    navigate("/A-propos");
+  };
   useEffect(() => {
     fetch(`http://localhost:3000/api/users/${id}`, {
       method: "GET",
@@ -111,7 +116,7 @@ function PictureProfile() {
         </ProfilePicture>
 
         <UpdateProfile>
-          <UpdateProfileButton type="button">
+          <UpdateProfileButton type="button" onClick={handleUpdateProfileClick}>
             Modifier profile
           </UpdateProfileButton>
         </UpdateProfile>
@@ -119,10 +124,10 @@ function PictureProfile() {
       <hr width="90%" color="#d5dce4" size="3" />
       <ContainerLinks>
         <Links>
-          <Link href="/home">Accueil</Link>
-          <Link href="/profile">Mes publications</Link>
-          <Link href="/">A propos</Link>
-          <Link href="/amies">Ami(e)s</Link>
+          <Link href="/Home">Accueil</Link>
+          <Link href="/Profile">Mes publications</Link>
+          <Link href="/A-propos">A propos</Link>
+          <Link href="/Amies">Ami(e)s</Link>
         </Links>
       </ContainerLinks>
     </ContainerPictureProfile>
