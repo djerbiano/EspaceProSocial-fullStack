@@ -123,6 +123,7 @@ function Post() {
           ...post,
           updatedAt: post.updatedAt.toLocaleString(),
         }));
+
         setPosts(finalFormattedPosts);
       });
   }, []);
@@ -143,7 +144,7 @@ function Post() {
         </PicturePost>
       )}
       <DatePost>
-        {(userId === post.author || userId === idAdmin) &&  (
+        {(userId === post.author || userId === idAdmin) && (
           <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
             <MdDeleteForever />
           </DeletePost>
