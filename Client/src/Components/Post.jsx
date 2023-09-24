@@ -88,6 +88,7 @@ function Post() {
   const [posts, setPosts] = useState([]);
   const [, setPostId] = useState();
   const userId = sessionStorage.getItem("userId");
+  const idAdmin = process.env.REACT_APP_ID;
 
   const handleImageClick = (imageUrl) => {
     setFullScreen(true);
@@ -142,7 +143,7 @@ function Post() {
         </PicturePost>
       )}
       <DatePost>
-        {userId === post.author && (
+        {(userId === post.author || userId === idAdmin) &&  (
           <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
             <MdDeleteForever />
           </DeletePost>
