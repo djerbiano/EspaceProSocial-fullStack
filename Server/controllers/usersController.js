@@ -49,7 +49,6 @@ const controller = {
     }
   },
 
-
   //search user
   searchUser: async (req, res) => {
     try {
@@ -200,7 +199,6 @@ const controller = {
 
       // Vérifier si l'utilisateur existe
       let user = await User.find({ _id: req.params.id });
-      //let user = await User.find({ userName: req.params.userName });
 
       if (user.length > 0) {
         // Hacher le mot de passe avant de l'enregistrer
@@ -209,6 +207,8 @@ const controller = {
           req.body.password = await bcrypt.hash(req.body.password.trim(), salt);
         }
         let data;
+        let avatar;
+
         if (req.file === undefined) {
           data = {
             userName: req.body.userName || user.userName,
@@ -216,6 +216,15 @@ const controller = {
             password: req.body.password || user.password,
           };
         } else {
+          avatar = user[0].avatar;
+
+          // supprimer l'ancien avatar
+          if (avatar) {
+            const picture = path.resolve(__dirname, "../images", avatar);
+            fs.unlink(picture, (err) => {
+              if (err) console.log(err);
+            });
+          }
           data = {
             userName: req.body.userName || user.userName,
             email: req.body.email || user.email,

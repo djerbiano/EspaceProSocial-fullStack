@@ -67,16 +67,17 @@ const controller = {
 
       // Vérifier que l'utilisateur existe dans la base de données
       const user = await User.findOne({ _id: userId });
+      const isAdmin = user.isAdmin;
 
       if (!user) {
         return res.status(404).json({ message: " You should be connected!" });
       }
-      if (userId === user._id.toString()) {
+      if (userId === user._id.toString() || isAdmin) {
         // Récupérer l'id du post à supprimer
         const postId = req.params.postId;
         const post = await Post.findOne({ _id: postId });
 
-        if (userId !== post.author.toString()) {
+        if (userId !== post.author.toString() && !isAdmin) {
           return res
             .status(404)
             .json({ message: " You need acces to delete this post !" });
