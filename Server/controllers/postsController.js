@@ -4,6 +4,7 @@ const { Comment } = require("../models/Comments");
 const { Post, validatePost } = require("../models/Posts");
 const fs = require("fs");
 const path = require("path");
+const { post } = require("../routes/users");
 
 const controller = {
   //Get all posts
@@ -54,7 +55,17 @@ const controller = {
         return res.status(200).send(result);
       }
     } catch (error) {
-      console.log(error);
+      if (req.file) {
+        let pictureError = req.file.filename;
+        console.log(pictureError);
+        if (pictureError) {
+          const picture = path.resolve(__dirname, "../images", pictureError);
+          fs.unlink(picture, (err) => {
+            if (err) console.log(err);
+          });
+        }
+      }
+
       return res.status(400).json({ message: "invalid post" });
     }
   },

@@ -80,12 +80,32 @@ const controller = {
     const { error } = validateRegisterUser(req.body);
 
     if (error) {
+      if (req.file) {
+        let pictureError = req.file.filename;
+        console.log(pictureError);
+        if (pictureError) {
+          const picture = path.resolve(__dirname, "../images", pictureError);
+          fs.unlink(picture, (err) => {
+            if (err) console.log(err);
+          });
+        }
+      }
       return res.status(400).json({ message: error.details[0].message });
     }
 
     // Vérifier si l'e-mail existe déjà
     let user = await User.findOne({ email: req.body.email });
     if (user) {
+      if (req.file) {
+        let pictureError = req.file.filename;
+        console.log(pictureError);
+        if (pictureError) {
+          const picture = path.resolve(__dirname, "../images", pictureError);
+          fs.unlink(picture, (err) => {
+            if (err) console.log(err);
+          });
+        }
+      }
       return res.status(400).json({ message: "Email already exist" });
     }
 
