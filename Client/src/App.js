@@ -8,6 +8,7 @@ import PageHome from "./Components/PageHome";
 import PageProfile from "./Components/PageProfile";
 import PageFriends from "./Components/PageFriends";
 import PageIntro from "./Components/PageIntro";
+import SingleProfile from "./Components/SingleProfile";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/Register" element={<PageRegister />} />
           <Route path="/ResetPassword" element={<PageResetPassword />} />
           <Route path="/ChangePassword" element={<PageChangePassword />} />
+          <Route path="/SingleProfile/:id" element={<SingleProfile />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BiLogOut } from "react-icons/bi";
 import logo from "../Assets/logo.png";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HeaderContainer = styled.nav`
   display: flex;
@@ -122,6 +123,8 @@ function Header() {
   const id = sessionStorage.getItem("userId");
   const [user, setUser] = useState("");
   const [dataSearch, setDataSearch] = useState("");
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetch(`http://localhost:3000/api/users/${id}`)
       .then((res) => res.json())
@@ -149,7 +152,10 @@ function Header() {
   const handleSearch = (e) => {
     setUser(e.target.value);
   };
-
+  const getUserIdClicked = (id) => {
+    navigate(`/singleprofile/${id}`);
+    window.location.reload();
+  };
   return (
     <>
       <HeaderContainer>
@@ -193,7 +199,10 @@ function Header() {
         <SearchResult>
           {dataSearch.length > 0 ? (
             dataSearch.map((user) => (
-              <SingleProfile key={user._id}>
+              <SingleProfile
+                key={user._id}
+                onClick={() => getUserIdClicked(user._id)}
+              >
                 <img src={`http://localhost:3000/${user.avatar}`} alt="" />
                 <p>{user.userName}</p>
               </SingleProfile>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdDeleteForever } from "react-icons/md";
 const ContainerPost = styled.div`
@@ -14,6 +15,33 @@ const ContainerPost = styled.div`
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
 `;
 
+const AuthorPost = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+
+  & p {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    &:hover {
+      scale: 1.2;
+      transition: 0.4s;
+    }
+  }
+
+  & img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
+    margin-right: 10px;
+  }
+`;
 const TitlePost = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -23,6 +51,8 @@ const TitlePost = styled.div`
 `;
 const PostContent = styled.p`
   word-break: break-all;
+
+  font-size: 20px;
 `;
 const PicturePost = styled.div`
   display: flex;
@@ -83,12 +113,14 @@ const FullscreenElement = styled.div`
 `;
 
 function Post() {
+  const navigate = useNavigate();
   const [clickedImage, setClickedImage] = useState(null);
   const [fullscreen, setFullScreen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [, setPostId] = useState();
   const userId = sessionStorage.getItem("userId");
   const idAdmin = process.env.REACT_APP_ID;
+  const [authorsData, setAuthorsData] = useState({});
 
   const handleImageClick = (imageUrl) => {
     setFullScreen(true);
@@ -127,8 +159,46 @@ function Post() {
         setPosts(finalFormattedPosts);
       });
   }, []);
+
+  // Récupérer les données des auteurs pour chaque publication
+  useEffect(() => {
+    const fetchAuthorsData = async () => {
+      const data = {};
+
+      for (const post of posts) {
+        // si déjà récupéré les données de cet auteur
+        if (!data[post.author]) {
+          // Si non requête pour obtenir les données de l'auteur
+          const response = await fetch(
+            `http://localhost:3000/api/users/${post.author}`
+          );
+          const authorData = await response.json();
+          data[post.author] = authorData;
+        }
+      }
+
+      setAuthorsData(data);
+    };
+
+    fetchAuthorsData();
+  }, [posts]);
+
+  const getUserIdClicked = (id) => {
+    navigate(`/singleprofile/${id}`);
+  };
+
   return posts.map((post) => (
     <ContainerPost key={post._id}>
+      <AuthorPost onClick={() => getUserIdClicked(post.author)}>
+        <img
+          src={`http://localhost:3000/${
+            authorsData[post.author]?.avatar || "avatarDefault.jpg"
+          }`}
+          alt=""
+        />
+        <p>{authorsData[post.author]?.userName}</p>
+      </AuthorPost>
+
       <TitlePost>
         <PostContent>{post.post}</PostContent>
       </TitlePost>

@@ -56,6 +56,10 @@ function SetPost() {
     setUserId(sessionStorage.getItem("userId"));
     const { name, value } = e.target;
 
+    if (error) {
+      window.location.reload();
+    }
+
     if (e.target.files && e.target.files.length > 0) {
       const firstFile = e.target.files[0];
       setFormData({
@@ -67,7 +71,6 @@ function SetPost() {
       setFormData({
         ...formData,
         [name]: value,
-        picture: null,
       });
     }
   };
@@ -113,7 +116,9 @@ function SetPost() {
 
         <br />
         <br />
-        <SubmitButton type="submit" value="Poster" />
+        {!error && (
+          <SubmitButton type="submit" value="Poster" />
+        )}
         <ErrorMessage>{error ? error.message : ""}</ErrorMessage>
       </Form>
     </ContainerSetPost>
