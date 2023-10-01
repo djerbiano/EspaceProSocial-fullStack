@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import logo from "../Assets/trump.jpg";
 const ContainerFriends = styled.div`
@@ -40,16 +41,42 @@ const Friend = styled.div`
 `;
 
 function Friends() {
+  //friends list
+  const [friends, setFriends] = useState([]);
+  const [sentInvitations, setSentInvitations] = useState([]);
+  const [receivedInvitations, setReceivedInvitations] = useState([]);
+
+
+  useEffect(() => {
+    // Get friends list
+
+    fetch(
+      `http://localhost:3000/api/friends/${sessionStorage.getItem("userId")}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("token"),
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setFriends(data.friendsList);
+        setSentInvitations(data.sentInvitations);
+        setReceivedInvitations(data.receivedInvitations);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <ContainerFriends>
       <Friend>
         <img src={logo} alt="" />
         <p>UserName</p>
       </Friend>
-      <Friend>
-        <img src={logo} alt="" />
-        <p>UserNameeeeeeeeeeeeeeeeee</p>
-      </Friend>
+    
     </ContainerFriends>
   );
 }
