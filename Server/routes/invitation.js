@@ -1,7 +1,6 @@
 const express = require("express");
 const invitationController = require("../controllers/invitationController");
 const virifyToken = require("../middlewares/virifyToken");
-const mult = require("../middlewares/multer");
 const route = express.Router();
 
 
@@ -20,6 +19,8 @@ route.delete("/:currentUserId/:otherUserId", virifyToken, invitationController.r
 
 //supprimer un ami
 route.delete("/deleteFriend/:currentUserId/:otherUserId", virifyToken, invitationController.deleteUser);
+
+
 
 
 module.exports = route;
