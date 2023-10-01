@@ -8,6 +8,7 @@ const cors = require("cors");
 const userRoute = require("./routes/users");
 const postsRoute = require("./routes/posts");
 const authRoute = require("./routes/auth");
+const invitationRoute = require("./routes/invitation");
 const port = process.env.PORT || 5000;
 
 const server = express();
@@ -35,6 +36,7 @@ server.get("/", (req, res) => {
 server.use("/api/auth", authRoute);
 server.use("/api/users", userRoute);
 server.use("/api/posts", postsRoute);
+server.use("/api/invitations", invitationRoute);
 server.all("*", (req, res) => {
   res.status(404).send("<h1>Page not found</h1>");
 });

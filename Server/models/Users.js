@@ -44,6 +44,20 @@ const UsersSchema = mongoose.Schema(
         default: null,
       },
     ],
+    sentInvitations: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
+      },
+    ],
+    receivedInvitations: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
+      },
+    ],
     verifyProfile: {
       type: Boolean,
       default: false,
