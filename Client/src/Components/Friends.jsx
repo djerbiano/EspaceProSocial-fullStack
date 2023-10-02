@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../Assets/trump.jpg";
 const ContainerFriends = styled.div`
   width: 100%;
   height: 100%;
@@ -41,11 +41,9 @@ const Friend = styled.div`
 `;
 
 function Friends() {
+  const navigate = useNavigate();
   //friends list
   const [friends, setFriends] = useState([]);
-  const [sentInvitations, setSentInvitations] = useState([]);
-  const [receivedInvitations, setReceivedInvitations] = useState([]);
-
 
   useEffect(() => {
     // Get friends list
@@ -63,20 +61,23 @@ function Friends() {
       .then((res) => res.json())
       .then((data) => {
         setFriends(data.friendsList);
-        setSentInvitations(data.sentInvitations);
-        setReceivedInvitations(data.receivedInvitations);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  const viewProfile = (id) => {
+    navigate(`/singleprofile/${id}`);
+  };
   return (
     <ContainerFriends>
-      <Friend>
-        <img src={logo} alt="" />
-        <p>UserName</p>
-      </Friend>
-    
+      {friends.map((friend) => (
+        <Friend key={friend.id} onClick={() => viewProfile(friend.id)}>
+          <img src={`http://localhost:3000/${friend.avatar}`} alt="avatar" />
+          <p>{friend.userName}</p>
+        </Friend>
+      ))}
     </ContainerFriends>
   );
 }

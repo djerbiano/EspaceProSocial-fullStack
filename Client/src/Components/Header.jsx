@@ -3,6 +3,7 @@ import { BiLogOut } from "react-icons/bi";
 import logo from "../Assets/logo.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Notification from "./Notification";
 
 const HeaderContainer = styled.nav`
   display: flex;
@@ -55,6 +56,7 @@ const SearchInput = styled.input`
 const ProfileContainer = styled.div`
   width: 5%;
   cursor: pointer;
+  position: relative;
 `;
 
 const ProfileImage = styled.img`
@@ -62,6 +64,16 @@ const ProfileImage = styled.img`
   aspect-ratio: 1/1;
   border-radius: 50%;
   object-fit: cover;
+`;
+
+const ContainerNotification = styled.div`
+  width: 100%;
+  cursor: pointer;
+  position: absolute;
+  left: 60%;
+  bottom: -10px;
+
+
 `;
 
 const LogOutContainer = styled.div`
@@ -186,7 +198,11 @@ function Header() {
               alt={avatar}
             />
           </a>
+          <ContainerNotification>
+            <Notification />
+          </ContainerNotification>
         </ProfileContainer>
+
         <LogOutContainer>
           <a href="/">
             <LogOutSpan title="logOut">
