@@ -283,25 +283,55 @@ const controller = {
       const userPicture = await User.findOne({ _id: req.params.id });
 
       // supprimer la photo de user
-      if (userPicture.avatar) {
-        const picture = path.resolve(
-          __dirname,
-          "../images",
-          userPicture.avatar
-        );
+
+      const photo =
+        userPicture.avatar === "avatarDefault.jpg"
+          ? undefined
+          : userPicture.avatar;
+
+      if (photo) {
+        const picture = path.resolve(__dirname, "../images", photo);
         fs.unlink(picture, (err) => {
           if (err) console.log(err);
         });
       }
 
-      let user = await User.findOneAndDelete({
-        _id: req.params.id,
+      // Supprimer l'id de tous les sentInvitations, reciverInvitations et amis
+      let user = await User.findOne({ _id: req.params.id });
+      let otherUser = await User.find({});
+
+      // Supprimer l'id de tous les amis
+      otherUser.forEach((other) => {
+        if (other.sentInvitations.includes(user._id)) {
+          other.sentInvitations.splice(
+            other.sentInvitations.indexOf(user._id),
+            1
+          );
+        }
+
+        if (other.receivedInvitations.includes(user._id)) {
+          other.receivedInvitations.splice(
+            other.receivedInvitations.indexOf(user._id),
+            1
+          );
+        }
+
+        if (other.friends.includes(user._id)) {
+          other.friends.splice(other.friends.indexOf(user._id), 1);
+        }
       });
-      if (user) {
+
+      otherUser.forEach(async (other) => {
+        await other.save();
+      });
+
+      // Supprimer l'utilisateur
+      setTimeout(async () => {
+        await User.findOneAndDelete({
+          _id: req.params.id,
+        });
         return res.status(200).json({ message: "User deleted!" });
-      } else {
-        return res.status(404).json({ message: "User not found!" });
-      }
+      }, 2000);
     } catch (error) {
       return res.status(400).json({ message: "invalid user", error });
     }
