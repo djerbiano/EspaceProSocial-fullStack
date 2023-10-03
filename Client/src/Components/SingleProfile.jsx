@@ -168,6 +168,7 @@ function SingleProfile() {
         .then((res) => res.json())
         .then((data) => {
           setMessageToUser(data.message);
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
@@ -188,6 +189,7 @@ function SingleProfile() {
         .then((res) => res.json())
         .then((data) => {
           setMessageToUser(data.message);
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
@@ -207,6 +209,7 @@ function SingleProfile() {
         .then((res) => res.json())
         .then((data) => {
           setMessageToUser(data.message);
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
@@ -226,6 +229,7 @@ function SingleProfile() {
         .then((res) => res.json())
         .then((data) => {
           setMessageToUser(data.message);
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);

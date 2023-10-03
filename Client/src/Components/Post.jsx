@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdDeleteForever } from "react-icons/md";
+import Loader from "./Loader";
 const ContainerPost = styled.div`
   width: 100%;
   min-height: 200px;
@@ -113,6 +114,7 @@ const FullscreenElement = styled.div`
 `;
 
 function Post() {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [clickedImage, setClickedImage] = useState(null);
   const [fullscreen, setFullScreen] = useState(false);
@@ -121,15 +123,12 @@ function Post() {
   const userId = sessionStorage.getItem("userId");
   const idAdmin = process.env.REACT_APP_ID;
   const [authorsData, setAuthorsData] = useState({});
-  
-  const [userInfo, setUserInfo] = useState("");
-  const verifyProfile = userInfo.verifyProfile;
 
   const handleImageClick = (imageUrl) => {
     setFullScreen(true);
     setClickedImage(imageUrl);
   };
-
+  // delete post
   const handleDeleteClick = async (postIdToDelete) => {
     setPostId(postIdToDelete);
 
@@ -144,7 +143,11 @@ function Post() {
       console.error("Erreur lors de la suppression du post :", error);
     }
   };
+
+  // récupérer les publications
   useEffect(() => {
+    setLoading(true);
+
     fetch("http://localhost:3000/api/posts")
       .then((res) => res.json())
       .then((data) => {
@@ -160,6 +163,7 @@ function Post() {
         }));
 
         setPosts(finalFormattedPosts);
+        setLoading(false);
       });
   }, []);
 
@@ -176,7 +180,6 @@ function Post() {
             `http://localhost:3000/api/users/${post.author}`
           );
           const authorData = await response.json();
-          setUserInfo(authorData);
           data[post.author] = authorData;
         }
       }
@@ -201,7 +204,7 @@ function Post() {
           alt=""
         />
         <p>{authorsData[post.author]?.userName || "Compte supprimé"}</p>
-        {verifyProfile && (
+        {authorsData[post.author]?.verifyProfile && (
           <svg
             fill="blue"
             viewBox="0 0 12 13"
@@ -245,6 +248,7 @@ function Post() {
           <img src={clickedImage} alt="" />
         </FullscreenElement>
       )}
+      {loading && <Loader />}
     </ContainerPost>
   ));
 }

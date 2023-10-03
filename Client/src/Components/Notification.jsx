@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FcCheckmark, FcCancel } from "react-icons/fc";
 
@@ -24,12 +25,17 @@ const ContentNotification = styled.div`
   right: 1vw;
   min-width: 300px;
   min-height: 100px;
+  max-height: 50vh;
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   border-radius: 5px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   & h4 {
     padding: 10px;
@@ -79,11 +85,97 @@ const CancelMark = styled(FcCancel)`
   }
 `;
 function Notification() {
-  const [invitations] = useState(true);
+  const navigate = useNavigate();
+  const [counterNotifications, setCounterNotifications] = useState(0);
+  const [invitations, setInvitations] = useState(false);
   const [notifications, setNotifications] = useState(false);
-
+  const [receivedInvitations, setReceivedInvitations] = useState([]);
+  const currentUser = sessionStorage.getItem("userId");
   const afficherInvitations = () => {
     setNotifications(!notifications);
+  };
+
+  // receivedInvitations list
+  useEffect(() => {
+    fetch(
+      `http://localhost:3000/api/friends/${sessionStorage.getItem("userId")}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("token"),
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.receivedInvitations.length > 0) {
+          setInvitations(true);
+          setReceivedInvitations(data.receivedInvitations);
+        }
+        setCounterNotifications(data.receivedInvitations.length);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  //Accepter une invitation
+  const accepterInvitation = (idClicked) => {
+    fetch(`http://localhost:3000/api/invitations/${currentUser}/${idClicked}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        token: sessionStorage.getItem("token"),
+      },
+    })
+      .then(() => {
+        // Mise à jour de receivedInvitations en filtrant l'invitation acceptée
+        setReceivedInvitations((prevInvitations) =>
+          prevInvitations.filter((invitation) => invitation.id !== idClicked)
+        );
+
+        setCounterNotifications((prevCounter) => prevCounter - 1);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  //refuser une invitation
+  const refuserInvitation = (idClicked) => {
+    fetch(`http://localhost:3000/api/invitations/${currentUser}/${idClicked}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        token: sessionStorage.getItem("token"),
+      },
+    })
+      .then(() => {
+        // mise à jour de receivedInvitations en filtrant l'invitation refusée
+        setReceivedInvitations((prevInvitations) =>
+          prevInvitations.filter((invitation) => invitation.id !== idClicked)
+        );
+
+        setCounterNotifications((prevCounter) => prevCounter - 1);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  // cacher le composant des notifications
+  useEffect(() => {
+    if (counterNotifications === 0) {
+      setInvitations(false);
+    }
+  }, [counterNotifications]);
+
+  // consulter le profil d'une invitation
+  const viewProfile = (id) => {
+    navigate(`/singleprofile/${id}`);
+    window.location.reload();
   };
 
   return (
@@ -91,22 +183,31 @@ function Notification() {
       {invitations && (
         <>
           <ContainerNotification onClick={afficherInvitations}>
-            <h3 title="notifications">1</h3>
+            <h3 title="notifications">{counterNotifications}</h3>
           </ContainerNotification>
 
           {notifications && (
             <ContentNotification>
               <h4>Vous avez été invité par :</h4>
-              <Invitation>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                  alt=""
-                />
-                <p>UserName</p>
-                <Checkmark />
+              {receivedInvitations.map((invitation) => (
+                <Invitation key={invitation.id}>
+                  <img
+                    src={`http://localhost:3000/${invitation.avatar}`}
+                    alt="avatar"
+                    onClick={() => viewProfile(invitation.id)}
+                  />
+                  <p onClick={() => viewProfile(invitation.id)}>
+                    {invitation.userName}
+                  </p>
 
-                <CancelMark />
-              </Invitation>
+                  <Checkmark
+                    onClick={() => accepterInvitation(invitation.id)}
+                  />
+                  <CancelMark
+                    onClick={() => refuserInvitation(invitation.id)}
+                  />
+                </Invitation>
+              ))}
             </ContentNotification>
           )}
         </>
