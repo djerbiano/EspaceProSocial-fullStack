@@ -72,6 +72,9 @@ function Friends() {
   };
   return (
     <ContainerFriends>
+      <h4>Ami (e):</h4>
+      <br />
+      <hr />
       {friends.map((friend) => (
         <Friend key={friend.id} onClick={() => viewProfile(friend.id)}>
           <img src={`http://localhost:3000/${friend.avatar}`} alt="avatar" />

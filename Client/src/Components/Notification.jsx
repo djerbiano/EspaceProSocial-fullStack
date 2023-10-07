@@ -8,7 +8,7 @@ const ContainerNotification = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: red;
+  background-color: green;
   border-radius: 50px;
 
   & h3 {

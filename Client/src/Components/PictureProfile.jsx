@@ -191,7 +191,6 @@ function PictureProfile() {
     })
       .then((res) => res.json())
       .then((data) => {
-        
         navigate("/");
       })
       .catch((error) => {

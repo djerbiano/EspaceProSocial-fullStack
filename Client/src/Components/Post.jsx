@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MdDeleteForever } from "react-icons/md";
 import Loader from "./Loader";
+import SetCommentaire from "./SetCommentaires";
+import CommentairesContent from "./CommentairesContent";
+import ReactionsContent from "./ReactionsContent";
 const ContainerPost = styled.div`
   width: 100%;
   min-height: 200px;
@@ -48,11 +51,10 @@ const TitlePost = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  margin-bottom: 20px;
+  margin: 10px 0 50px 0;
 `;
 const PostContent = styled.p`
   word-break: break-all;
-
   font-size: 20px;
 `;
 const PicturePost = styled.div`
@@ -79,15 +81,17 @@ const DatePost = styled.div`
   width: 100%;
   height: 10%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: bold;
+  margin-bottom: 20px;
 `;
 
 const DeletePost = styled.a`
   font-size: 20px;
   color: red;
+  margin-left: 10px;
   &:hover {
     scale: 1.5;
     transition: 0.4s;
@@ -112,8 +116,34 @@ const FullscreenElement = styled.div`
     box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
   }
 `;
+const ReactionContainer = styled.div`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
 
-function Post() {
+const LikeDislikeContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  margin: 6px 20px 0 0;
+`;
+
+const CommentairesContainer = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-right: 80px;
+`;
+const Commentaires = styled.p`
+  font-weight: bold;
+`;
+
+function Post( postId ) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [clickedImage, setClickedImage] = useState(null);
@@ -219,6 +249,15 @@ function Post() {
           </svg>
         )}
       </AuthorPost>
+      <DatePost>
+        <p>{post.updatedAt.toString().substring(0, 10)}</p>
+
+        {(userId === post.author || userId === idAdmin) && (
+          <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
+            <MdDeleteForever />
+          </DeletePost>
+        )}
+      </DatePost>
 
       <TitlePost>
         <PostContent>{post.post}</PostContent>
@@ -234,20 +273,23 @@ function Post() {
           />
         </PicturePost>
       )}
-      <DatePost>
-        {(userId === post.author || userId === idAdmin) && (
-          <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
-            <MdDeleteForever />
-          </DeletePost>
-        )}
-        <p>{post.updatedAt}</p>
-      </DatePost>
+      <ReactionContainer>
+        <LikeDislikeContainer>
+          <ReactionsContent like={post.likes} dislike={post.dislikes} />
+        </LikeDislikeContainer>
+        <CommentairesContainer>
+          <Commentaires>{post.comments.length} commentaires</Commentaires>
+        </CommentairesContainer>
+      </ReactionContainer>
+      <SetCommentaire postId={post._id} />
+      <CommentairesContent postId={post._id} />
 
       {fullscreen && (
         <FullscreenElement onClick={() => setFullScreen(!fullscreen)}>
           <img src={clickedImage} alt="" />
         </FullscreenElement>
       )}
+
       {loading && <Loader />}
     </ContainerPost>
   ));
