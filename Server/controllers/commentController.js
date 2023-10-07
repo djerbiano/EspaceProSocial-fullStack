@@ -6,6 +6,13 @@ const controller = {
   //Add comment
   addComment: async (req, res) => {
     try {
+      //Vérification du token
+      if (req.user.id !== req.params.userId) {
+        return res.status(403).json({
+          message: "Token non valide, veuillez vous reconnecter",
+        });
+      }
+
       // Vérifier que l'utilisateur existe dans la base de données
       const user = await User.findOne({ _id: req.params.userId });
 
@@ -53,6 +60,13 @@ const controller = {
   //Delete comment
   deleteComment: async (req, res) => {
     try {
+      //Vérification du token
+      if (req.user.id !== req.params.userId) {
+        return res.status(403).json({
+          message: "Token non valide, veuillez vous reconnecter",
+        });
+      }
+
       const { userId, commentId } = req.params;
       //get comment
 

@@ -20,6 +20,34 @@ const controller = {
     }
   },
 
+  // Get one post
+  getOnePost: async (req, res) => {
+    try {
+      //Vérification du token
+      if (req.user.id !== req.params.currentUser) {
+        return res.status(403).json({
+          message: "Token non valide, veuillez vous reconnecter",
+        });
+      }
+      const post = await Post.findById(req.params.postId).populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: "_id userName avatar verifyProfile isAdmin",
+        },
+        select: "-post -createdAt -updatedAt -__v",
+      });
+
+      if (post) {
+        return res.status(200).json(post);
+      }
+
+      return res.status(404).json({ message: "Post not found" });
+    } catch (error) {
+      return res.status(400).json({ message: error });
+    }
+  },
+
   // Add post
   addPost: async (req, res) => {
     try {
