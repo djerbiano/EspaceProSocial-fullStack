@@ -1,6 +1,7 @@
 const express = require("express");
 const postController = require("../controllers/postsController");
 const commentController = require("../controllers/commentController");
+const likesDislikesController = require("../controllers/likesDislikesController");
 const virifyToken = require("../middlewares/virifyToken");
 const mult = require("../middlewares/multer");
 const route = express.Router();
@@ -18,22 +19,24 @@ route.post("/:userId/post", mult, postController.addPost);
 //Delete post
 route.delete("/:userId/post/:postId", postController.deletePost);
 
-/******************************__Comments__****************************************/
+/******************************like & dislake Post****************************************/
+// like post
 
-//Add comment
-
-route.post(
-  "/:userId/post/:postId/comment",
+route.patch(
+  "/:currentUser/:postId/likes",
   virifyToken,
-  commentController.addComment
+  likesDislikesController.likePost
 );
 
-//Delete comment
+// dislike post
 
-route.delete(
-  "/:userId/post/:postId/comment/:commentId",
+route.patch(
+  "/:currentUser/:postId/dislikes",
   virifyToken,
-  commentController.deleteComment
+  likesDislikesController.dislikePost
 );
+
+
+
 
 module.exports = route;

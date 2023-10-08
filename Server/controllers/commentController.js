@@ -3,6 +3,68 @@ const { Post } = require("../models/Posts");
 const { Comment } = require("../models/Comments");
 
 const controller = {
+  // Get all comments
+  getAllComments: async (req, res) => {
+    try {
+      //Vérification du token
+      if (req.user.id !== req.params.userId) {
+        return res.status(403).json({
+          message: "Token non valide, veuillez vous reconnecter",
+        });
+      }
+
+      // Vérifier que l'utilisateur existe dans la base de données
+
+      const user = await User.findOne({ _id: req.params.userId });
+
+      if (!user) {
+        return res.status(404).json({ message: " Vous devez être connecté" });
+      }
+
+      const comment = await Comment.find({});
+
+      if (comment.length > 0) {
+        return res.status(200).json(comment);
+      } else {
+        return res
+          .status(404)
+          .json({ message: "There are no comments in the database" });
+      }
+    } catch (error) {
+      return res.status(400).json({ message: error });
+    }
+  },
+
+  //Get one comment
+
+  getOneComment: async (req, res) => {
+    try {
+      //Vérification du token
+      if (req.user.id !== req.params.userId) {
+        return res.status(403).json({
+          message: "Token non valide, veuillez vous reconnecter",
+        });
+      }
+
+      // Vérifier que l'utilisateur existe dans la base de données
+
+      const user = await User.findOne({ _id: req.params.userId });
+
+      if (!user) {
+        return res.status(404).json({ message: " Vous devez être connecté" });
+      }
+
+      const comment = await Comment.findOne({ _id: req.params.commentId });
+
+      if (!comment) {
+        return res
+          .status(404)
+          .json({ message: "Commentaire non trouvé, veuillez ressayer" });
+      } else {
+        return res.status(200).json(comment);
+      }
+    } catch (error) {}
+  },
   //Add comment
   addComment: async (req, res) => {
     try {
