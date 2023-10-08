@@ -143,7 +143,7 @@ const Commentaires = styled.p`
   font-weight: bold;
 `;
 
-function Post( postId ) {
+function Post(postId) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [clickedImage, setClickedImage] = useState(null);
@@ -275,7 +275,12 @@ function Post( postId ) {
       )}
       <ReactionContainer>
         <LikeDislikeContainer>
-          <ReactionsContent like={post.likes} dislike={post.dislikes} />
+          <ReactionsContent
+            like={post.likes}
+            dislike={post.dislikes}
+            postId={post._id}
+            currentUser={userId}
+          />
         </LikeDislikeContainer>
         <CommentairesContainer>
           <Commentaires>{post.comments.length} commentaires</Commentaires>

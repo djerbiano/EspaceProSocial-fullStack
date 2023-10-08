@@ -46,13 +46,13 @@ const NumberOfReactions = styled.p`
   font-weight: bold;
 `;
 
-function ReactionsContent({ postId, currentUser }) {
+function ReactionsContentForComment({ commentId, currentUser }) {
   const [likeLength, setLikeLength] = useState();
   const [dislikeLength, setDislikeLength] = useState();
 
-  // like post
+  // like comment
   const stateOfLikesAndDislikes = () => {
-    fetch(`http://localhost:3000/api/posts/${currentUser}/${postId}`, {
+    fetch(`http://localhost:3000/api/comments/${currentUser}/${commentId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +72,7 @@ function ReactionsContent({ postId, currentUser }) {
   stateOfLikesAndDislikes();
 
   const handleLike = () => {
-    fetch(`http://localhost:3000/api/posts/${currentUser}/${postId}/likes`, {
+    fetch(`http://localhost:3000/api/comments/${currentUser}/${commentId}/likes`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -86,19 +86,21 @@ function ReactionsContent({ postId, currentUser }) {
   };
 
   const handleDislike = () => {
-    fetch(`http://localhost:3000/api/posts/${currentUser}/${postId}/dislikes`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        token: sessionStorage.getItem("token"),
-      },
-    })
+    fetch(
+      `http://localhost:3000/api/comments/${currentUser}/${commentId}/dislikes`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("token"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         stateOfLikesAndDislikes();
       });
   };
-  // like post
 
   return (
     <Reactions>
@@ -112,4 +114,4 @@ function ReactionsContent({ postId, currentUser }) {
   );
 }
 
-export default ReactionsContent;
+export default ReactionsContentForComment;

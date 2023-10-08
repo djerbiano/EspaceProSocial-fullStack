@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ReactionsContent from "./ReactionsContent";
+import ReactionsContentForComment from "./ReactionsContentForComment";
 import { useState, useEffect } from "react";
 import { MdDeleteForever } from "react-icons/md";
 
@@ -109,7 +109,6 @@ function CommentairesContent(props) {
       .then((res) => res.json())
       .then((data) => {
         setComments(data.comments);
-        console.log(data.comments);
       })
       .catch((err) => {
         console.log(err);
@@ -122,7 +121,7 @@ function CommentairesContent(props) {
 
     try {
       await fetch(
-        `http://localhost:3000/api/posts/${currentUser}/post/${props.postId}/comment/${commentIdToDelete}`,
+        `http://localhost:3000/api/comments/${currentUser}/post/${props.postId}/comment/${commentIdToDelete}`,
         {
           method: "DELETE",
           headers: {
@@ -170,9 +169,9 @@ function CommentairesContent(props) {
             </User>
             <TextComment>{comment.comments}</TextComment>
             <LikeContainer>
-              <ReactionsContent
-                like={comment.likes}
-                dislike={comment.dislikes}
+              <ReactionsContentForComment
+                commentId={comment._id}
+                currentUser={currentUser}
               />
               {currentUser === comment.author._id && (
                 <DeletePost

@@ -67,7 +67,7 @@ function Commentaires(props) {
     formDataToSend.append("post", newCommentaire.post);
     console.log(newCommentaire.comments);
     fetch(
-      `http://localhost:3000/api/posts/${currentUser}/post/${postId}/comment`,
+      `http://localhost:3000/api/comments/${currentUser}/post/${postId}/comment`,
       {
         method: "POST",
         headers: {
