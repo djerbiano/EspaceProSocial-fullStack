@@ -10,6 +10,9 @@ const route = express.Router();
 //Get all posts
 route.get("/", postController.getAllPosts);
 
+//Get my posts
+route.get("/:currentUser", virifyToken, postController.getMyPosts);
+
 //Get one post
 route.get("/:currentUser/:postId", virifyToken, postController.getOnePost);
 

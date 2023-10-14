@@ -22,6 +22,9 @@ const controller = {
           id: friend._id,
           userName: friend.userName,
           avatar: friend.avatar,
+          verifyProfile: friend.verifyProfile,
+          isAdmin: friend.isAdmin,
+
         };
       });
 
@@ -30,6 +33,8 @@ const controller = {
           id: friend._id,
           userName: friend.userName,
           avatar: friend.avatar,
+          verifyProfile: friend.verifyProfile,
+          isAdmin: friend.isAdmin,
         };
       });
 
@@ -38,6 +43,8 @@ const controller = {
           id: friend._id,
           userName: friend.userName,
           avatar: friend.avatar,
+          verifyProfile: friend.verifyProfile,
+          isAdmin: friend.isAdmin,
         };
       });
 
