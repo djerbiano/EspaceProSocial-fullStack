@@ -1,4 +1,5 @@
-import "./Styles/App.css";
+import { Analytics } from "@vercel/analytics/react";
+import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageConnexion from "./Components/PageConnexion";
 import PageRegister from "./Components/PageRegister";
@@ -9,11 +10,19 @@ import PageProfile from "./Components/PageProfile";
 import PageFriends from "./Components/PageFriends";
 import PageIntro from "./Components/PageIntro";
 import SingleProfile from "./Components/SingleProfile";
+const AppContainer = styled.div`
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+`;
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <AppContainer>
         <Routes>
           <Route path="/" element={<PageConnexion />} />
           <Route path="/Home" element={<PageHome />} />
@@ -25,7 +34,8 @@ function App() {
           <Route path="/ChangePassword" element={<PageChangePassword />} />
           <Route path="/SingleProfile/:id" element={<SingleProfile />} />
         </Routes>
-      </div>
+        <Analytics />
+      </AppContainer>
     </BrowserRouter>
   );
 }

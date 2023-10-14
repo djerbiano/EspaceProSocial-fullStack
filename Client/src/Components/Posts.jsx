@@ -8,6 +8,7 @@ const ContainerPosts = styled.div`
   width: 100%;
   min-height: 500px;
   border-radius: 5px;
+  margin-top: 40px;
 `;
 
 const SinglePost = styled.div`

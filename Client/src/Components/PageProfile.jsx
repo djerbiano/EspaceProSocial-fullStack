@@ -3,8 +3,8 @@ import PictureProfile from "./PictureProfile";
 import Header from "./Header";
 import SetPost from "./SetPost";
 import Friends from "./Friends";
-import Posts from "./Posts";
 import IntroProfilePage from "./IntroProfilePage";
+import MyPosts from "./MyPosts";
 
 const ContainerProfile = styled.div`
   width: 100%;
@@ -18,7 +18,7 @@ const ContainerIntroAndSetPost = styled.nav`
 
 const IntroContent = styled.nav`
   width: 30%;
-  height: 100%;
+  
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   margin-right: 10%;
@@ -26,7 +26,10 @@ const IntroContent = styled.nav`
 
 const ContainerFreindsAndPosts = styled.div`
   width: 100%;
+  min-height: 400px;
   display: flex;
+  justify-content: center;
+  align-items: flex-start;
   box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
 `;
@@ -48,6 +51,7 @@ const ContainerFriends = styled.div`
 
 const ContainerPosts = styled.div`
   width: 80%;
+  
 `;
 function Profile() {
   return (
@@ -66,7 +70,7 @@ function Profile() {
             <Friends />
           </ContainerFriends>
           <ContainerPosts>
-            <Posts />
+            <MyPosts />
           </ContainerPosts>
         </ContainerFreindsAndPosts>
       </ContainerProfile>

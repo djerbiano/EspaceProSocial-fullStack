@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import logo from "../Assets/home-logo.jpg";
 import { useNavigate } from "react-router-dom";
+import ModalReusable from "./ReusableComponent/ModalReusable";
 
 const PageContainer = styled.div`
   display: flex;
@@ -73,8 +74,15 @@ const Link = styled.a`
     transform: scale(1.05);
   }
 `;
-const ErrorMessage = styled.p`
-  color: red;
+
+const NoContent = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
 `;
 
 function PageConnexion() {
@@ -114,46 +122,67 @@ function PageConnexion() {
       .then((data) => {
         sessionStorage.setItem("token", data[2].token);
         sessionStorage.setItem("userId", data[1]._id);
-        navigate("/home");
+        navigate("/profile");
       })
       .catch((error) => {
         setError(error);
       });
   };
 
-  return (
-    <PageContainer>
-      <LogoContainer>
-        <LogoImage src={logo} alt="" />
-      </LogoContainer>
-      <RegisterContainer>
-        <FormContainer onSubmit={handleSubmit} method="post">
-          <label htmlFor="email">Email :</label>
-          <InputField
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-          />
-          <label htmlFor="password">Mot de passe :</label>
-          <InputField
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Mot de passe"
-            onChange={handleChange}
-          />
-          <SubmitButton type="submit" value="Se connecter" />
-          <LinksContainer>
-            <Link href="/Register">S'inscrire</Link>
-            <Link href="/ResetPassword">Mot de passe oublié ?</Link>
-          </LinksContainer>
-          <ErrorMessage>{error ? error.message : ""}</ErrorMessage>
-        </FormContainer>
-      </RegisterContainer>
-    </PageContainer>
-  );
+  if (window.screen.width < 1500) {
+    return (
+      <>
+        <NoContent>
+          <p>
+            Merci de vous connecter avec un ordinateur pour avoir une meilleure
+            expérience
+          </p>
+
+          <p>Please log in with a computer to have a better experience.</p>
+
+          <p>
+            .الرجاء تسجيل الدخول باستخدام جهاز الكمبيوتر للحصول على أفضل تجربة.
+          </p>
+        </NoContent>
+      </>
+    );
+  } else {
+    return (
+      <PageContainer>
+        <LogoContainer>
+          <LogoImage src={logo} alt="" />
+        </LogoContainer>
+        <RegisterContainer>
+          <FormContainer onSubmit={handleSubmit} method="post">
+            <label htmlFor="email">Email :</label>
+            <InputField
+              type="text"
+              id="email"
+              name="email"
+              placeholder="Email"
+              onChange={handleChange}
+            />
+            <label htmlFor="password">Mot de passe :</label>
+            <InputField
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Mot de passe"
+              onChange={handleChange}
+            />
+            <SubmitButton type="submit" value="Se connecter" />
+            <LinksContainer>
+              <Link href="/Register">S'inscrire</Link>
+              <Link href="/ResetPassword">Mot de passe oublié ?</Link>
+            </LinksContainer>
+            {error && (
+              <ModalReusable title="Erreur" message={error && error.message} />
+            )}
+          </FormContainer>
+        </RegisterContainer>
+      </PageContainer>
+    );
+  }
 }
 
 export default PageConnexion;

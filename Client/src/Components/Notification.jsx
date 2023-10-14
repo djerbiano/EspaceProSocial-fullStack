@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { FcCheckmark, FcCancel } from "react-icons/fc";
 
 const ContainerNotification = styled.div`
-  width: 40%;
+  width: 20px;
+  height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;

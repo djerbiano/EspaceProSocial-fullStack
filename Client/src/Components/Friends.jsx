@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import LogoVerifiyProfile from "./ReusableComponent/VerifyProfile";
 const ContainerFriends = styled.div`
   width: 100%;
   height: 100%;
@@ -78,7 +79,10 @@ function Friends() {
       {friends.map((friend) => (
         <Friend key={friend.id} onClick={() => viewProfile(friend.id)}>
           <img src={`http://localhost:3000/${friend.avatar}`} alt="avatar" />
-          <p>{friend.userName}</p>
+          <p>
+            {friend.userName}
+            {friend.verifyProfile && <LogoVerifiyProfile />}
+          </p>
         </Friend>
       ))}
     </ContainerFriends>

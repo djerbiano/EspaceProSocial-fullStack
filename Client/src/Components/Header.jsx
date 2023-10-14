@@ -4,6 +4,7 @@ import logo from "../Assets/logo.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Notification from "./Notification";
+import LogoVerifiyProfile from "./ReusableComponent/VerifyProfile";
 
 const HeaderContainer = styled.nav`
   display: flex;
@@ -64,16 +65,15 @@ const ProfileImage = styled.img`
   aspect-ratio: 1/1;
   border-radius: 50%;
   object-fit: cover;
+  
 `;
 
 const ContainerNotification = styled.div`
-  width: 100%;
+  width: 50px;
   cursor: pointer;
   position: absolute;
   left: 60%;
   bottom: -10px;
-
-
 `;
 
 const LogOutContainer = styled.div`
@@ -220,7 +220,10 @@ function Header() {
                 onClick={() => getUserIdClicked(user._id)}
               >
                 <img src={`http://localhost:3000/${user.avatar}`} alt="" />
-                <p>{user.userName}</p>
+                <p>
+                  {user.userName}
+                  {user.verifyProfile && <LogoVerifiyProfile />}
+                </p>
               </SingleProfile>
             ))
           ) : (

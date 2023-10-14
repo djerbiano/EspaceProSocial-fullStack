@@ -13,6 +13,7 @@ const ContainerFreinds = styled.div`
   min-height: 60vh;
   box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
+  display: flex;
   & > * {
     width: 100%;
     min-height:500px;

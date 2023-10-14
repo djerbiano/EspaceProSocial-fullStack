@@ -8,16 +8,16 @@ import CommentairesContent from "./CommentairesContent";
 import ReactionsContent from "./ReactionsContent";
 import LogoVerifiyProfile from "./ReusableComponent/VerifyProfile";
 const ContainerPost = styled.div`
-  width: 100%;
   min-height: 200px;
-  margin: 20px;
+  margin: 20px 30px;
+  width: 90%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
+  box-shadow:  0 0 5px 5px rgba(0, 0, 0, 0.2);
 `;
 
 const AuthorPost = styled.div`
@@ -144,7 +144,7 @@ const Commentaires = styled.p`
   font-weight: bold;
 `;
 
-function Post(postId) {
+function MyPosts(postId) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [clickedImage, setClickedImage] = useState(null);
@@ -154,6 +154,7 @@ function Post(postId) {
   const userId = sessionStorage.getItem("userId");
   const idAdmin = process.env.REACT_APP_ID;
   const [authorsData, setAuthorsData] = useState({});
+  const [noData, setNoData] = useState("");
 
   const handleImageClick = (imageUrl) => {
     setFullScreen(true);
@@ -179,9 +180,18 @@ function Post(postId) {
   useEffect(() => {
     setLoading(true);
 
-    fetch("http://localhost:3000/api/posts")
+    fetch(`http://localhost:3000/api/posts/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: sessionStorage.getItem("token"),
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
+        if (data.message) {
+          return setNoData(data.message);
+        }
         const formattedPosts = data.map((post) => {
           post.updatedAt = new Date(post.updatedAt);
           return post;
@@ -196,6 +206,7 @@ function Post(postId) {
         setPosts(finalFormattedPosts);
         setLoading(false);
       });
+    // eslint-disable-next-line
   }, []);
 
   // Récupérer les données des auteurs pour chaque publication
@@ -225,67 +236,74 @@ function Post(postId) {
     navigate(`/singleprofile/${id}`);
   };
 
-  return posts.map((post) => (
-    <ContainerPost key={post._id}>
-      <AuthorPost onClick={() => getUserIdClicked(post.author)}>
-        <img
-          src={`http://localhost:3000/${
-            authorsData[post.author]?.avatar || "avatarDefault.jpg"
-          }`}
-          alt=""
-        />
-        <p>{authorsData[post.author]?.userName || "Compte supprimé"}</p>
-        {authorsData[post.author]?.verifyProfile && <LogoVerifiyProfile />}
-      </AuthorPost>
-      <DatePost>
-        <p>{post.updatedAt.toString().substring(0, 10)}</p>
+  return noData ? (
+    <ContainerPost>
+    <p>{noData}</p>
+  </ContainerPost>
+  ) : 
+    posts.map((post) => (
+        <ContainerPost key={post._id}>
+          <AuthorPost onClick={() => getUserIdClicked(post.author)}>
+            <img
+              src={`http://localhost:3000/${
+                authorsData[post.author]?.avatar || "avatarDefault.jpg"
+              }`}
+              alt=""
+            />
+            <p>{authorsData[post.author]?.userName || "Compte supprimé"}</p>
+            {authorsData[post.author]?.verifyProfile && <LogoVerifiyProfile />}
+          </AuthorPost>
+          <DatePost>
+            <p>{post.updatedAt.toString().substring(0, 10)}</p>
+    
+            {(userId === post.author || userId === idAdmin) && (
+              <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
+                <MdDeleteForever />
+              </DeletePost>
+            )}
+          </DatePost>
+    
+          <TitlePost>
+            <PostContent>{post.post}</PostContent>
+          </TitlePost>
+          {post.picture && (
+            <PicturePost>
+              <img
+                src={`http://localhost:3000/${post.picture}`}
+                alt=""
+                onClick={() =>
+                  handleImageClick(`http://localhost:3000/${post.picture}`)
+                }
+              />
+            </PicturePost>
+          )}
+          <ReactionContainer>
+            <LikeDislikeContainer>
+              <ReactionsContent
+                like={post.likes}
+                dislike={post.dislikes}
+                postId={post._id}
+                currentUser={userId}
+              />
+            </LikeDislikeContainer>
+            <CommentairesContainer>
+              <Commentaires>{post.comments.length} commentaires</Commentaires>
+            </CommentairesContainer>
+          </ReactionContainer>
+          <SetCommentaire postId={post._id} />
+          <CommentairesContent postId={post._id} />
+    
+          {fullscreen && (
+            <FullscreenElement onClick={() => setFullScreen(!fullscreen)}>
+              <img src={clickedImage} alt="" />
+            </FullscreenElement>
+          )}
+    
+          {loading && <Loader />}
+        </ContainerPost>
+      ));
 
-        {(userId === post.author || userId === idAdmin) && (
-          <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
-            <MdDeleteForever />
-          </DeletePost>
-        )}
-      </DatePost>
-
-      <TitlePost>
-        <PostContent>{post.post}</PostContent>
-      </TitlePost>
-      {post.picture && (
-        <PicturePost>
-          <img
-            src={`http://localhost:3000/${post.picture}`}
-            alt=""
-            onClick={() =>
-              handleImageClick(`http://localhost:3000/${post.picture}`)
-            }
-          />
-        </PicturePost>
-      )}
-      <ReactionContainer>
-        <LikeDislikeContainer>
-          <ReactionsContent
-            like={post.likes}
-            dislike={post.dislikes}
-            postId={post._id}
-            currentUser={userId}
-          />
-        </LikeDislikeContainer>
-        <CommentairesContainer>
-          <Commentaires>{post.comments.length} commentaires</Commentaires>
-        </CommentairesContainer>
-      </ReactionContainer>
-      <SetCommentaire postId={post._id} />
-      <CommentairesContent postId={post._id} />
-
-      {fullscreen && (
-        <FullscreenElement onClick={() => setFullScreen(!fullscreen)}>
-          <img src={clickedImage} alt="" />
-        </FullscreenElement>
-      )}
-
-      {loading && <Loader />}
-    </ContainerPost>
-  ));
+ 
 }
 
-export default Post;
+export default MyPosts;
