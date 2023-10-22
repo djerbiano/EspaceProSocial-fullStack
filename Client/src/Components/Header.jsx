@@ -82,7 +82,11 @@ const LogOutContainer = styled.div`
 
 const LogOutSpan = styled.span`
   font-size: 2rem;
-  color: #27a7fc;
+  color: red;
+  & > :hover {
+    scale: 1.4;
+    transition: 0.3s;
+  }
 `;
 
 const SearchResult = styled.div`

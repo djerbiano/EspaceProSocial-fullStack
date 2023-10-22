@@ -3,12 +3,16 @@ import { FaUserCircle, FaMailBulk, FaBirthdayCake } from "react-icons/fa";
 import styled from "styled-components";
 
 const ContainerIntroProfilePage = styled.div`
-  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: space-evenly;
-  padding: 10px;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  word-break: break-all;
+
 `;
 function IntroProfilePage() {
   const [id] = useState(sessionStorage.getItem("userId"));

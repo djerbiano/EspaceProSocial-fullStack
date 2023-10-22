@@ -72,7 +72,7 @@ function PageResetPassword() {
           <IoMdArrowRoundBack />
         </BackLink>
         <RegisterForm>
-          <label for="email">Email :</label>
+          <label htmlFor="email">Email :</label>
           <InputField type="text" id="email" placeholder="Email" />
 
           <SubmitButton type="submit" value="Envoyer" />

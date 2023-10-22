@@ -18,7 +18,6 @@ const ContainerIntroAndSetPost = styled.nav`
 
 const IntroContent = styled.nav`
   width: 30%;
-  
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   margin-right: 10%;
@@ -51,7 +50,6 @@ const ContainerFriends = styled.div`
 
 const ContainerPosts = styled.div`
   width: 80%;
-  
 `;
 function Profile() {
   return (

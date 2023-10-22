@@ -98,7 +98,6 @@ const controller = {
     if (user) {
       if (req.file) {
         let pictureError = req.file.filename;
-        console.log(pictureError);
         if (pictureError) {
           const picture = path.resolve(__dirname, "../images", pictureError);
           fs.unlink(picture, (err) => {
@@ -211,12 +210,6 @@ const controller = {
         });
       }
 
-      const { error } = validateUpdateUser(req.body);
-
-      if (error) {
-        return res.status(400).json({ message: error.details[0].message });
-      }
-
       // Vérifier si l'utilisateur existe
       let user = await User.find({ _id: req.params.id });
 
@@ -239,7 +232,7 @@ const controller = {
           avatar = user[0].avatar;
 
           // supprimer l'ancien avatar
-          if (avatar) {
+          if (avatar !== "avatarDefault.jpg") {
             const picture = path.resolve(__dirname, "../images", avatar);
             fs.unlink(picture, (err) => {
               if (err) console.log(err);
@@ -284,12 +277,9 @@ const controller = {
 
       // supprimer la photo de user
 
-      const photo =
-        userPicture.avatar === "avatarDefault.jpg"
-          ? undefined
-          : userPicture.avatar;
+      const photo = userPicture.avatar;
 
-      if (photo) {
+      if (photo !== "avatarDefault.jpg") {
         const picture = path.resolve(__dirname, "../images", photo);
         fs.unlink(picture, (err) => {
           if (err) console.log(err);

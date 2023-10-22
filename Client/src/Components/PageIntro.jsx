@@ -3,7 +3,8 @@ import PictureProfile from "./PictureProfile";
 import Header from "./Header";
 import IntroProfilePage from "./IntroProfilePage";
 import { FaUserEdit } from "react-icons/fa";
-
+import UpdateProfile from "./UpdateProfile";
+import { useState } from "react";
 const ContainerIntro = styled.div`
   width: 100%;
 `;
@@ -19,17 +20,23 @@ const Intro = styled.div`
   align-items: flex-end;
   justify-content: center;
   position: relative;
-  & a {
+  & button {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 2rem;
-    color: #000;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: black;
     &:hover {
-      color: red;
-      cursor: pointer;
-      scale: 1.2;
+      transform: scale(1.3);
+      transition: 0.3s;
+      border-radius: 5px;
+      border: 1px solid black;
+      background-color: white;
     }
+ 
   }
 
   & > * {
@@ -42,19 +49,27 @@ const Intro = styled.div`
   }
 `;
 function PageIntro() {
+  const [updateProfile, setUpdateProfile] = useState(false);
+
   return (
     <>
       <Header />
-      <PictureProfile />
-      <ContainerIntro>
-        <Intro>
-        
-          <a href="/A-propos" title="edit">
-            <FaUserEdit />
-          </a>
-          <IntroProfilePage />
-        </Intro>
-      </ContainerIntro>
+
+      {updateProfile ? (
+        <UpdateProfile />
+      ) : (
+        <>
+          <PictureProfile />
+          <ContainerIntro>
+            <Intro>
+              <button type="button" onClick={() => setUpdateProfile(true)}>
+                <FaUserEdit />
+              </button>
+              <IntroProfilePage />
+            </Intro>
+          </ContainerIntro>
+        </>
+      )}
     </>
   );
 }

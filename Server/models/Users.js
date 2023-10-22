@@ -75,7 +75,7 @@ const User = mongoose.model("User", UsersSchema);
 // validate Register user
 function validateRegisterUser(obj) {
   const schema = joi.object({
-    userName: joi.string().trim().min(2).max(100).required(),
+    userName: joi.string().trim().min(2).max(10).required(),
     email: joi.string().trim().min(5).max(100).required().email(),
     password: joi.string().trim().min(6).required(),
   });
@@ -96,20 +96,10 @@ function validateLoginUser(obj) {
   });
   return schema.validate(obj);
 }
-// validate Update user
-function validateUpdateUser(obj) {
-  const schema = joi.object({
-    userName: joi.string().trim().min(2).max(100),
-    email: joi.string().trim().min(5).max(100).email(),
-    password: joi.string().trim().min(6),
-  });
-  return schema.validate(obj);
-}
 
 module.exports = {
   User,
   validateRegisterUser,
   validateNewPassword,
   validateLoginUser,
-  validateUpdateUser,
 };

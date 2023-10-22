@@ -51,7 +51,7 @@ const UpdateProfileButton = styled.button`
   height: 40px;
   border-radius: 5px;
   border: none;
-  background-color: #d1cbcb;
+  background-color: #31c1e3;
   cursor: pointer;
   font-size: 15px;
   font-weight: bold;
@@ -86,7 +86,7 @@ const Link = styled.a`
   min-width: 10%;
   border-radius: 5px;
   border: none;
-  background-color: #d1cbcb;
+  background-color: #31c1e3;
   cursor: pointer;
   font-size: 15px;
   font-weight: bold;
@@ -108,7 +108,7 @@ const DeleteMyCompte = styled.div`
   min-width: 10%;
   border-radius: 5px;
   border: none;
-  background-color: #d1cbcb;
+  background-color: #31c1e3;
   cursor: pointer;
   font-size: 15px;
   font-weight: bold;

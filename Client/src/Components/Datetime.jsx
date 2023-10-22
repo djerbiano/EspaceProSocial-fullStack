@@ -3,7 +3,6 @@ import styled from "styled-components";
 const ContainerDetailsMyCompte = styled.div`
   min-width: 80%;
   min-height: 200px;
-  background-color: #f2f2f2;
   border-radius: 10px;
   padding: 10px;
 `;

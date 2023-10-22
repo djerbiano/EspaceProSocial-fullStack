@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Header from "./Header";
 import Posts from "./Posts";
 import SetPost from "./SetPost";
-import Datetime from "./Datetime";
 import Friends from "./Friends";
+import Meteo from "./Meteo";
 
 const ContainerHomePage = styled.div`
   width: 100%;
@@ -24,12 +24,14 @@ const ContainerSetPost = styled.div`
 `;
 const ContainerLeftComponent = styled.div`
   width: 20vw;
+  margin-top: 12vh;
+  margin-left: 10px;
   min-height: 60vh;
+  padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
   position: fixed;
   left: 0;
   top: 0;
@@ -65,7 +67,7 @@ function PageHome() {
       <Header />
       <ContainerHomePage>
         <ContainerLeftComponent>
-          <Datetime />
+          <Meteo />
         </ContainerLeftComponent>
         <ContainerMainComponent>
           <ContainerSetPost>

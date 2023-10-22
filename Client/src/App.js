@@ -10,6 +10,7 @@ import PageProfile from "./Components/PageProfile";
 import PageFriends from "./Components/PageFriends";
 import PageIntro from "./Components/PageIntro";
 import SingleProfile from "./Components/SingleProfile";
+import Meteo from "./Components/Meteo";
 const AppContainer = styled.div`
   width: 80vw;
   display: flex;
@@ -17,6 +18,7 @@ const AppContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+
 `;
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
           <Route path="/ResetPassword" element={<PageResetPassword />} />
           <Route path="/ChangePassword" element={<PageChangePassword />} />
           <Route path="/SingleProfile/:id" element={<SingleProfile />} />
+          <Route path="/meteo" element={<Meteo />} />
+          <Route path="*" element={<PageConnexion />} />
         </Routes>
         <Analytics />
       </AppContainer>

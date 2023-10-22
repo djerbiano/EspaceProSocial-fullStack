@@ -18,6 +18,7 @@ const ContainerPost = styled.div`
   align-items: center;
   border-radius: 5px;
   box-shadow:  0 0 5px 5px rgba(0, 0, 0, 0.2);
+  
 `;
 
 const AuthorPost = styled.div`

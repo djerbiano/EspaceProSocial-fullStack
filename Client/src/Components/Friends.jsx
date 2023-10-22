@@ -13,7 +13,7 @@ const ContainerFriends = styled.div`
 const Friend = styled.div`
   width: 200px;
   height: 50px;
-  background-color: #d1cbcb52;
+  background-color: #f5f5f5;
   padding: 10px;
   margin: 10px 0;
   display: flex;
