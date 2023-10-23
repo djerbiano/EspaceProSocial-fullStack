@@ -129,11 +129,12 @@ const controller = {
         });
       }
 
-      const { userId, commentId } = req.params;
+      const { userId, commentId, postId } = req.params;
       //get comment
 
       const user = await User.findOne({ _id: userId });
       const comment = await Comment.findOne({ _id: commentId });
+      const post = await Post.findOne({ _id: postId });
       if (!user) {
         return res.status(404).json({ message: "You should be connected!" });
       }
@@ -142,9 +143,13 @@ const controller = {
           .status(404)
           .json({ message: "You need acces to delete this comment !" });
       }
-
+      
       //delete comment
       await Comment.findOneAndDelete({ _id: comment._id });
+      //delete commentId from post.comments
+      await post.comments.pull(comment._id);
+      await post.save();
+
       res.status(200).json({ message: "Comment deleted !" });
     } catch (error) {
       return res.status(400).json({ message: "Invalid URL", error });

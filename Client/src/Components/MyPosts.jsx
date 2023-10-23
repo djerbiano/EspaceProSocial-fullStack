@@ -205,6 +205,7 @@ function MyPosts(postId) {
         }));
 
         setPosts(finalFormattedPosts);
+        console.log(finalFormattedPosts);
         setLoading(false);
       });
     // eslint-disable-next-line
