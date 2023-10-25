@@ -5,6 +5,7 @@ const connectToDb = require("./config/db");
 const dotenv = require("dotenv").config();
 let ejs = require("ejs");
 const cors = require("cors");
+const verifSessionStorage = require("./routes/privateRoute");
 const userRoute = require("./routes/users");
 const postsRoute = require("./routes/posts");
 const commentsRoute = require("./routes/comment");
@@ -36,6 +37,7 @@ server.get("/", (req, res) => {
   res.render("index", { errorMessage });
 });
 server.use("/api/auth", authRoute);
+server.use("/api", verifSessionStorage );
 server.use("/api/users", userRoute);
 server.use("/api/posts", postsRoute);
 server.use("/api/comments", commentsRoute);
@@ -45,7 +47,7 @@ server.all("*", (req, res) => {
   res.status(404).send("<h1>Page not found</h1>");
 });
 
-// Middleware pour gérer les erreurs
+// Middleware pour gérer les erreurs 
 server.use(errMiddleware);
 
 // Démarrer le serveur

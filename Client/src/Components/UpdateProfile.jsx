@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { validateInputData } from "../Components/Validator/UpdateProfileValidator";
 
@@ -61,7 +61,7 @@ const SubmitButton = styled.input`
   }
 `;
 
-const BackLink = styled.a`
+const BackLink = styled(Link)`
   position: absolute;
   top: 12vh;
   left: 40px;
@@ -198,7 +198,7 @@ function UpdateProfile() {
         <Title>
           <h1>Mettre à jour mon compte</h1>
         </Title>
-        <BackLink href="/A-propos">
+        <BackLink to="/profile">
           <IoMdArrowRoundBack />
         </BackLink>
         <RegisterForm>

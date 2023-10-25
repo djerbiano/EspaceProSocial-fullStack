@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 const ContainerRegister = styled.section`
@@ -54,7 +54,7 @@ const SubmitButton = styled.input`
   }
 `;
 
-const BackLink = styled.a`
+const BackLink = styled(Link)`
   position: absolute;
   top: 40px;
   left: 40px;
@@ -174,7 +174,7 @@ function PageRegister() {
         <Title>
           <h1>S'inscrire</h1>
         </Title>
-        <BackLink href="/">
+        <BackLink to="/">
           <IoMdArrowRoundBack />
         </BackLink>
         <RegisterForm>

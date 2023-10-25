@@ -10,6 +10,8 @@ import PageProfile from "./Components/PageProfile";
 import PageFriends from "./Components/PageFriends";
 import PageIntro from "./Components/PageIntro";
 import SingleProfile from "./Components/SingleProfile";
+import NotFound from "./Components/NotFound";
+import PrivateRoute from "./utils/PrivateRoute";
 const AppContainer = styled.div`
   width: 80vw;
   display: flex;
@@ -25,15 +27,27 @@ function App() {
       <AppContainer>
         <Routes>
           <Route path="/" element={<PageConnexion />} />
-          <Route path="/Home" element={<PageHome />} />
-          <Route path="/Profile" element={<PageProfile />} />
-          <Route path="/Amies" element={<PageFriends />} />
-          <Route path="/A-propos" element={<PageIntro />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route path="/Home" element={<PageHome />} exact />
+            <Route path="/Profile" element={<PageProfile />} exact />
+            <Route path="/Amies" element={<PageFriends />} exact />
+            <Route path="/A-propos" element={<PageIntro />} exact />
+            <Route
+              path="/ChangePassword"
+              element={<PageChangePassword />}
+              exact
+            />
+            <Route
+              path="/SingleProfile/:id"
+              element={<SingleProfile />}
+              exact
+            />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+
           <Route path="/Register" element={<PageRegister />} />
           <Route path="/ResetPassword" element={<PageResetPassword />} />
-          <Route path="/ChangePassword" element={<PageChangePassword />} />
-          <Route path="/SingleProfile/:id" element={<SingleProfile />} />
-          <Route path="*" element={<PageConnexion />} />
         </Routes>
         <Analytics />
       </AppContainer>

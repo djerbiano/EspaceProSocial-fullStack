@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import Loader from "./Loader";
 
@@ -78,7 +78,7 @@ const Links = styled.div`
   width: 100%;
 `;
 
-const Link = styled.a`
+const Link2 = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -247,10 +247,10 @@ function PictureProfile() {
       <hr width="90%" color="#d5dce4" size="3" />
       <ContainerLinks>
         <Links>
-          <Link href="/Home">Accueil</Link>
-          <Link href="/Profile">Mes publications</Link>
-          <Link href="/A-propos">A propos</Link>
-          <Link href="/Amies">Ami(e)s</Link>
+          <Link2 to="/Home">Accueil</Link2>
+          <Link2 to="/Profile">Mes publications</Link2>
+          <Link2 to="/A-propos">A propos</Link2>
+          <Link2 to="/Amies">Ami(e)s</Link2>
           <DeleteMyCompte onClick={showModal}>
             Supprimer mon compte
           </DeleteMyCompte>

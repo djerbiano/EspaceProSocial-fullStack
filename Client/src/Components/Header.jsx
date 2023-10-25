@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { BiLogOut } from "react-icons/bi";
 import logo from "../Assets/logo.png";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Notification from "./Notification";
 import LogoVerifiyProfile from "./ReusableComponent/VerifyProfile";
 
@@ -172,13 +172,17 @@ function Header() {
     navigate(`/singleprofile/${id}`);
     window.location.reload();
   };
+
+  const logOut = () => {
+    sessionStorage.clear();
+  }
   return (
     <>
       <HeaderContainer>
         <LogoContainer>
-          <a href="/">
-            <LogoImage src={logo} alt="logo" />
-          </a>
+          <Link to="/home">
+            <LogoImage src={logo} alt="logo" title="Home"/>
+          </Link>
         </LogoContainer>
         <SearchBarContainer>
           <form method="get">
@@ -196,23 +200,23 @@ function Header() {
           </form>
         </SearchBarContainer>
         <ProfileContainer>
-          <a href="/profile">
+          <Link to="/profile">
             <ProfileImage
               src={`http://localhost:3000/${avatar}`}
               alt={avatar}
             />
-          </a>
+          </Link>
           <ContainerNotification>
             <Notification />
           </ContainerNotification>
         </ProfileContainer>
 
         <LogOutContainer>
-          <a href="/">
+          <Link to="/" onClick={logOut}>
             <LogOutSpan title="logOut">
               <BiLogOut />
             </LogOutSpan>
-          </a>
+          </Link>
         </LogOutContainer>
       </HeaderContainer>
       {dataSearch && user.length > 0 && (

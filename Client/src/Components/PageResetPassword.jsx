@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const ContainerRegister = styled.section`
   display: flex;
@@ -51,7 +52,7 @@ const SubmitButton = styled.input`
   }
 `;
 
-const BackLink = styled.a`
+const BackLink = styled(Link)`
   position: absolute;
   top: 40px;
   left: 40px;
@@ -68,7 +69,7 @@ function PageResetPassword() {
         <Title>
           <h1>Mot de passe oublié</h1>
         </Title>
-        <BackLink href="/">
+        <BackLink to="/">
           <IoMdArrowRoundBack />
         </BackLink>
         <RegisterForm>

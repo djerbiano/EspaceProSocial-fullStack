@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import logo from "../Assets/home-logo.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ModalReusable from "./ReusableComponent/ModalReusable";
 
 const PageContainer = styled.div`
@@ -63,7 +63,7 @@ const LinksContainer = styled.div`
   gap: 10px;
 `;
 
-const Link = styled.a`
+const Link2 = styled(Link)`
   text-decoration: none;
   color: #000;
   font-weight: bold;
@@ -160,6 +160,7 @@ function PageConnexion() {
               id="email"
               name="email"
               placeholder="Email"
+              defaultValue="admin@admin.fr"
               onChange={handleChange}
             />
             <label htmlFor="password">Mot de passe :</label>
@@ -172,8 +173,8 @@ function PageConnexion() {
             />
             <SubmitButton type="submit" value="Se connecter" />
             <LinksContainer>
-              <Link href="/Register">S'inscrire</Link>
-              <Link href="/ResetPassword">Mot de passe oublié ?</Link>
+              <Link2 to="/Register">S'inscrire</Link2>
+              <Link2 to="/ResetPassword">Mot de passe oublié ?</Link2>
             </LinksContainer>
             {error && (
               <ModalReusable title="Erreur" message={error && error.message} />
