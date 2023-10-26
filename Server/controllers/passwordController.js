@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config();
 const { User, validateNewPassword } = require("../models/Users");
+const nodemailer = require("nodemailer");
 
 const controller = {
   // Rendre la page de réinitialisation de mot de passe
@@ -28,8 +29,46 @@ const controller = {
           { expiresIn: "10m" }
         );
 
-        const resetLink = `Link: http://localhost:3000/api/auth/setResetPassword/${user._id}/${token}`;
-        let errorMessage = resetLink;
+        const resetLink = `http://localhost:3000/api/auth/setResetPassword/${user._id}/${token}`;
+        let errorMessage =
+          "Veuillez consulter votre boîte mail pour changer votre mot de passe";
+        ///////send mail//////////
+        const likeMail = ` 
+        <h2>Changement de mot de passe</h2>
+        <br/>
+        <p>Bonjour ${user.userName},</p>
+        <br/>
+        <p>Suite à votre demande, vous pouvez changer votre mot de passe en cliquant sur le lien suivant :</p>
+        <p>Vous avez 10 minutes pour effectuer le changement</p>
+        <br/>
+        <a href="${resetLink}">Modifier votre mot de passe</a>
+        <br/>
+        <p>Si vous n'ête pas à l'origine de cette demande, veuillez ignorer ce mail</p>
+        <br/>
+        <br/>
+        <h3>L'équipe d'Espace Pro Social</h3>
+
+        `;
+        const userMail = user.email;
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: process.env.ADMIN_EMAIL,
+            pass: process.env.ADMIN_EMAIL_PASSWORD,
+          },
+        });
+        async function main() {
+          const info = await transporter.sendMail({
+            from: '"Espace Pro Social 👻" <admin@EspaceProSocial.com>',
+            to: userMail,
+            subject: "Espace Pro Social ✔",
+            text: "réinitialisation de mot de passe",
+            html: likeMail,
+          });
+          console.log("Message sent: %s", info.messageId);
+        }
+
+        main().catch(console.error);
         return res.render("forgot-password", { errorMessage });
       }
     } catch (error) {

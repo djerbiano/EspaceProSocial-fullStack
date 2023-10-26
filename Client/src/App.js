@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageConnexion from "./Components/PageConnexion";
 import PageRegister from "./Components/PageRegister";
-import PageResetPassword from "./Components/PageResetPassword";
 import PageChangePassword from "./Components/PageChangePassword";
 import PageHome from "./Components/PageHome";
 import PageProfile from "./Components/PageProfile";
@@ -47,7 +46,6 @@ function App() {
           </Route>
 
           <Route path="/Register" element={<PageRegister />} />
-          <Route path="/ResetPassword" element={<PageResetPassword />} />
         </Routes>
         <Analytics />
       </AppContainer>

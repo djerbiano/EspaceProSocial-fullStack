@@ -74,6 +74,17 @@ const Link2 = styled(Link)`
     transform: scale(1.05);
   }
 `;
+const Link22 = styled.a`
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  &:hover {
+    color: #8a8787;
+    transform: scale(1.05);
+  }
+`;
 
 const NoContent = styled.div`
   width: 100vw;
@@ -160,7 +171,7 @@ function PageConnexion() {
               id="email"
               name="email"
               placeholder="Email"
-              defaultValue="admin@admin.fr"
+              defaultValue="saberghoudi2222@hotmail.f"
               onChange={handleChange}
             />
             <label htmlFor="password">Mot de passe :</label>
@@ -174,7 +185,7 @@ function PageConnexion() {
             <SubmitButton type="submit" value="Se connecter" />
             <LinksContainer>
               <Link2 to="/Register">S'inscrire</Link2>
-              <Link2 to="/ResetPassword">Mot de passe oublié ?</Link2>
+              <Link22 href={process.env.REACT_APP_URL_SERVER + "/api/auth/password"}>Mot de passe oublié ?</Link22>
             </LinksContainer>
             {error && (
               <ModalReusable title="Erreur" message={error && error.message} />
