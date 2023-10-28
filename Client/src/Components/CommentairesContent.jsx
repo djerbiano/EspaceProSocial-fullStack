@@ -98,12 +98,11 @@ function CommentairesContent(props) {
   const currentUser = sessionStorage.getItem("userId");
   const [comments, setComments] = useState([]);
   const [, setCommentId] = useState("");
-
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
   useEffect(() => {
-    fetch(`http://localhost:3000/api/posts/${currentUser}/${props.postId}`, {
+    fetch(`${ApiAdresse}/api/posts/${currentUser}/${props.postId}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
         token: sessionStorage.getItem("token"),
       },
     })
@@ -122,11 +121,10 @@ function CommentairesContent(props) {
 
     try {
       await fetch(
-        `http://localhost:3000/api/comments/${currentUser}/post/${props.postId}/comment/${commentIdToDelete}`,
+        `${ApiAdresse}/api/comments/${currentUser}/post/${props.postId}/comment/${commentIdToDelete}`,
         {
           method: "DELETE",
           headers: {
-            "Content-Type": "application/json",
             token: sessionStorage.getItem("token"),
           },
         }
@@ -143,7 +141,7 @@ function CommentairesContent(props) {
           <SingleCommentaire key={comment._id}>
             <User>
               <img
-                src={`http://localhost:3000/${comment.author.avatar}`}
+                src={`${ApiAdresse}/images/${comment.author.avatar}`}
                 alt="avatar"
               />
               <h3>

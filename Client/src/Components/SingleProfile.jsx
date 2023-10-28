@@ -101,13 +101,15 @@ function SingleProfile() {
   const [stateFriends, setStateFriends] = useState("");
   const [refuseInvitation, setRefuseInvitation] = useState(false);
   const [deleteInvitation, setDeleteInvitation] = useState(false);
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   // information sur le user recherché
   useEffect(() => {
-    fetch(`http://localhost:3000/api/users/${id}`, {
+    fetch(`${ApiAdresse}/api/users/${id}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        
+        token: sessionStorage.getItem("token"),
       },
     })
       .then((res) => res.json())
@@ -131,7 +133,7 @@ function SingleProfile() {
     if (id === currentUser) {
       return navigate("/profile");
     }
-    fetch(`http://localhost:3000/api/invitations/${currentUser}/${id}`, {
+    fetch(`${ApiAdresse}/api/invitations/${currentUser}/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -158,7 +160,7 @@ function SingleProfile() {
   const handleInvitation = (e) => {
     //Envoyer une invitation
     if (e.target.value === "Inviter") {
-      fetch(`http://localhost:3000/api/invitations/${currentUser}/${id}`, {
+      fetch(`${ApiAdresse}/api/invitations/${currentUser}/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -179,7 +181,7 @@ function SingleProfile() {
     //Accepter une invitation
     if (e.target.value === "Accepter l'invitation") {
       setRefuseInvitation(true);
-      fetch(`http://localhost:3000/api/invitations/${currentUser}/${id}`, {
+      fetch(`${ApiAdresse}/api/invitations/${currentUser}/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -199,7 +201,7 @@ function SingleProfile() {
 
     //Refuser une invitation
     if (e.target.value === "Refuser l'invitation") {
-      fetch(`http://localhost:3000/api/invitations/${currentUser}/${id}`, {
+      fetch(`${ApiAdresse}/api/invitations/${currentUser}/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -220,7 +222,7 @@ function SingleProfile() {
     // Supprimer un ami
     if (e.target.value === "Supprimer de la liste") {
       fetch(
-        `http://localhost:3000/api/invitations/deleteFriend/${currentUser}/${id}`,
+        `${ApiAdresse}/api/invitations/deleteFriend/${currentUser}/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -247,7 +249,7 @@ function SingleProfile() {
       <ContainerPictureProfile>
         <ContPictureProfile>
           <ProfilePicture>
-            <ProfileImage src={`http://localhost:3000/${avatar}`} alt="" />
+            <ProfileImage src={`${ApiAdresse}/images/${avatar}`} alt="" />
             <ContainerName>
               <h3>{userInfo.userName}</h3>
               {verifyProfile && <LogoVerifiyProfile />}

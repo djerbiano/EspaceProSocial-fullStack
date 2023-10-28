@@ -3,7 +3,6 @@ import Header from "./Header";
 import Posts from "./Posts";
 import SetPost from "./SetPost";
 import Friends from "./Friends";
-import Meteo from "./Meteo";
 
 const ContainerHomePage = styled.div`
   width: 100%;
@@ -67,7 +66,7 @@ function PageHome() {
       <Header />
       <ContainerHomePage>
         <ContainerLeftComponent>
-          <Meteo />
+        
         </ContainerLeftComponent>
         <ContainerMainComponent>
           <ContainerSetPost>

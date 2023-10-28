@@ -171,6 +171,7 @@ function PictureProfile() {
   const id = sessionStorage.getItem("userId");
   const navigate = useNavigate();
   const verifyProfile = userInfo.verifyProfile;
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
   const handleUpdateProfileClick = () => {
     navigate("/A-propos");
   };
@@ -182,7 +183,7 @@ function PictureProfile() {
   // Supprimer mon compte
   const handleDeleteCompteClick = () => {
     setLoading(true);
-    fetch(`http://localhost:3000/api/users/${id}`, {
+    fetch(`${ApiAdresse}/api/users/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -199,10 +200,11 @@ function PictureProfile() {
   };
   // User information
   useEffect(() => {
-    fetch(`http://localhost:3000/api/users/${id}`, {
+    fetch(`${ApiAdresse}/api/users/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        token: sessionStorage.getItem("token"),
       },
     })
       .then((res) => res.json())
@@ -213,12 +215,13 @@ function PictureProfile() {
       .catch((error) => {
         console.log(error);
       });
+      // eslint-disable-next-line
   }, [id]);
   return (
     <ContainerPictureProfile>
       <ContPictureProfile>
         <ProfilePicture>
-          <ProfileImage src={`http://localhost:3000/${avatar}`} alt="" />
+          <ProfileImage src={`${ApiAdresse}/images/${avatar}`} alt="" />
           <ContainerName>
             <h3>{userInfo.userName}</h3>
             {verifyProfile && (

@@ -49,10 +49,11 @@ const NumberOfReactions = styled.p`
 function ReactionsContent({ postId, currentUser }) {
   const [likeLength, setLikeLength] = useState();
   const [dislikeLength, setDislikeLength] = useState();
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   // like post
   const stateOfLikesAndDislikes = () => {
-    fetch(`http://localhost:3000/api/posts/${currentUser}/${postId}`, {
+    fetch(`${ApiAdresse}/api/posts/${currentUser}/${postId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +73,7 @@ function ReactionsContent({ postId, currentUser }) {
   stateOfLikesAndDislikes();
 
   const handleLike = () => {
-    fetch(`http://localhost:3000/api/posts/${currentUser}/${postId}/likes`, {
+    fetch(`${ApiAdresse}/api/posts/${currentUser}/${postId}/likes`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +87,7 @@ function ReactionsContent({ postId, currentUser }) {
   };
 
   const handleDislike = () => {
-    fetch(`http://localhost:3000/api/posts/${currentUser}/${postId}/dislikes`, {
+    fetch(`${ApiAdresse}/api/posts/${currentUser}/${postId}/dislikes`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

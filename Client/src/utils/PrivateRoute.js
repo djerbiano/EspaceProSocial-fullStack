@@ -6,10 +6,11 @@ function PrivateRoute() {
   const id = sessionStorage.getItem("userId");
   const [isAuthorized, setIsAuthorized] = useState(null);
   const [loading, setLoading] = useState(true);
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   useEffect(() => {
     if (token && id) {
-      fetch(`http://localhost:3000/api/verifInformationSessionStorage`, {
+      fetch(`${ApiAdresse}/api/verifInformationSessionStorage`, {
         method: "POST",
         headers: {
           token: token,
@@ -41,6 +42,7 @@ function PrivateRoute() {
       setIsAuthorized(false);
       setLoading(false);
     }
+    // eslint-disable-next-line
   }, [token, id]);
 
   // bloquer l'accès et attendre la réponse de fetch avant de donner accès aux composants

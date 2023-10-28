@@ -121,6 +121,7 @@ function UpdateProfile() {
     avatar: "",
     password: "",
   });
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -163,7 +164,7 @@ function UpdateProfile() {
     }
     formDataToSend.append("password", formData.password);
 
-    fetch(`http://localhost:3000/api/users/${userId}`, {
+    fetch(`${ApiAdresse}/api/users/${userId}`, {
       method: "PATCH",
       headers: {
         token: sessionStorage.getItem("token"),

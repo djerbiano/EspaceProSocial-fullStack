@@ -46,6 +46,7 @@ function Commentaires(props) {
     author: currentUser,
     post: postId,
   });
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   const handleCommentaireChange = (e) => {
     e.preventDefault();
@@ -65,18 +66,15 @@ function Commentaires(props) {
     formDataToSend.append("comments", newCommentaire.comments);
     formDataToSend.append("author", newCommentaire.author);
     formDataToSend.append("post", newCommentaire.post);
-    console.log(newCommentaire.comments);
-    fetch(
-      `http://localhost:3000/api/comments/${currentUser}/post/${postId}/comment`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          token: sessionStorage.getItem("token"),
-        },
-        body: JSON.stringify(Object.fromEntries(formDataToSend)),
-      }
-    ).then((res) => {
+
+    fetch(`${ApiAdresse}/api/comments/${currentUser}/post/${postId}/comment`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: sessionStorage.getItem("token"),
+      },
+      body: JSON.stringify(Object.fromEntries(formDataToSend)),
+    }).then((res) => {
       res
         .json()
         .then((data) => {

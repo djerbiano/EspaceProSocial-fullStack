@@ -154,6 +154,7 @@ function Post(postId) {
   const userId = sessionStorage.getItem("userId");
   const idAdmin = process.env.REACT_APP_ID;
   const [authorsData, setAuthorsData] = useState({});
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   const handleImageClick = (imageUrl) => {
     setFullScreen(true);
@@ -165,9 +166,12 @@ function Post(postId) {
 
     try {
       await fetch(
-        `http://localhost:3000/api/posts/${userId}/post/${postIdToDelete}`,
+        `${ApiAdresse}/api/posts/${userId}/post/${postIdToDelete}`,
         {
           method: "DELETE",
+          headers: {
+            token: sessionStorage.getItem("token"),
+          },
         }
       );
     } catch (error) {
@@ -178,24 +182,36 @@ function Post(postId) {
   // récupérer les publications
   useEffect(() => {
     setLoading(true);
-
-    fetch("http://localhost:3000/api/posts")
+    fetch(`${ApiAdresse}/api/posts/${userId}`, {
+      method: "GET",
+      headers: {
+        token: sessionStorage.getItem("token"),
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        const formattedPosts = data.map((post) => {
-          post.updatedAt = new Date(post.updatedAt);
-          return post;
-        });
-
-        formattedPosts.sort((a, b) => b.updatedAt - a.updatedAt);
-        const finalFormattedPosts = formattedPosts.map((post) => ({
-          ...post,
-          updatedAt: post.updatedAt.toLocaleString(),
-        }));
-
-        setPosts(finalFormattedPosts);
-        setLoading(false);
+        if (data.message === "There are no posts in the database") {
+          
+         return  null;
+          
+        } else {
+          const formattedPosts = data.map((post) => {
+            post.updatedAt = new Date(post.updatedAt);
+            return post;
+          });
+  
+          formattedPosts.sort((a, b) => b.updatedAt - a.updatedAt);
+          const finalFormattedPosts = formattedPosts.map((post) => ({
+            ...post,
+            updatedAt: post.updatedAt.toLocaleString(),
+          }));
+  
+          setPosts(finalFormattedPosts);
+          setLoading(false);
+        }
+      
       });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Récupérer les données des auteurs pour chaque publication
@@ -208,7 +224,13 @@ function Post(postId) {
         if (!data[post.author]) {
           // Si non requête pour obtenir les données de l'auteur
           const response = await fetch(
-            `http://localhost:3000/api/users/${post.author}`
+            `${ApiAdresse}/api/users/${post.author}`,
+            {
+              method: "GET",
+              headers: {
+                token: sessionStorage.getItem("token"),
+              },
+            }
           );
           const authorData = await response.json();
           data[post.author] = authorData;
@@ -219,73 +241,80 @@ function Post(postId) {
     };
 
     fetchAuthorsData();
+    // eslint-disable-next-line
   }, [posts]);
 
   const getUserIdClicked = (id) => {
     navigate(`/singleprofile/${id}`);
   };
 
-  return posts.map((post) => (
-    <ContainerPost key={post._id}>
-      <AuthorPost onClick={() => getUserIdClicked(post.author)}>
-        <img
-          src={`http://localhost:3000/${
-            authorsData[post.author]?.avatar || "avatarDefault.jpg"
-          }`}
-          alt=""
-        />
-        <p>{authorsData[post.author]?.userName || "Compte supprimé"}</p>
-        {authorsData[post.author]?.verifyProfile && <LogoVerifiyProfile />}
-      </AuthorPost>
-      <DatePost>
-        <p>{post.updatedAt.toString().substring(0, 10)}</p>
-
-        {(userId === post.author || userId === idAdmin) && (
-          <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
-            <MdDeleteForever />
-          </DeletePost>
-        )}
-      </DatePost>
-
-      <TitlePost>
-        <PostContent>{post.post}</PostContent>
-      </TitlePost>
-      {post.picture && (
-        <PicturePost>
+  return posts.length > 0 ? (
+    posts.map((post) => (
+      <ContainerPost key={post._id}>
+        <AuthorPost onClick={() => getUserIdClicked(post.author)}>
           <img
-            src={`http://localhost:3000/${post.picture}`}
+            src={`${ApiAdresse}/images/${
+              authorsData[post.author]?.avatar || "avatarDefault.jpg"
+            }`}
             alt=""
-            onClick={() =>
-              handleImageClick(`http://localhost:3000/${post.picture}`)
-            }
           />
-        </PicturePost>
-      )}
-      <ReactionContainer>
-        <LikeDislikeContainer>
-          <ReactionsContent
-            like={post.likes}
-            dislike={post.dislikes}
-            postId={post._id}
-            currentUser={userId}
-          />
-        </LikeDislikeContainer>
-        <CommentairesContainer>
-          <Commentaires>{post.comments.length} commentaires</Commentaires>
-        </CommentairesContainer>
-      </ReactionContainer>
-      <SetCommentaire postId={post._id} />
-      <CommentairesContent postId={post._id} />
+          <p>{authorsData[post.author]?.userName || "Compte supprimé"}</p>
+          {authorsData[post.author]?.verifyProfile && <LogoVerifiyProfile />}
+        </AuthorPost>
+        <DatePost>
+          <p>{post.updatedAt.toString().substring(0, 10)}</p>
 
-      {fullscreen && (
-        <FullscreenElement onClick={() => setFullScreen(!fullscreen)}>
-          <img src={clickedImage} alt="" />
-        </FullscreenElement>
-      )}
+          {(userId === post.author || userId === idAdmin) && (
+            <DeletePost href="" onClick={() => handleDeleteClick(post._id)}>
+              <MdDeleteForever />
+            </DeletePost>
+          )}
+        </DatePost>
 
-      {loading && <Loader />}
+        <TitlePost>
+          <PostContent>{post.post}</PostContent>
+        </TitlePost>
+        {post.picture && (
+          <PicturePost>
+            <img
+              src={`${ApiAdresse}/${post.picture}`}
+              alt=""
+              onClick={() =>
+                handleImageClick(`${ApiAdresse}/${post.picture}`)
+              }
+            />
+          </PicturePost>
+        )}
+        <ReactionContainer>
+          <LikeDislikeContainer>
+            <ReactionsContent
+              like={post.likes}
+              dislike={post.dislikes}
+              postId={post._id}
+              currentUser={userId}
+            />
+          </LikeDislikeContainer>
+          <CommentairesContainer>
+            <Commentaires>{post.comments.length} commentaires</Commentaires>
+          </CommentairesContainer>
+        </ReactionContainer>
+        <SetCommentaire postId={post._id} />
+        <CommentairesContent postId={post._id} />
+
+        {fullscreen && (
+          <FullscreenElement onClick={() => setFullScreen(!fullscreen)}>
+            <img src={clickedImage} alt="" />
+          </FullscreenElement>
+        )}
+
+        {loading && <Loader />}
+      </ContainerPost>
+    ))
+  ) : (
+    <ContainerPost>
+    <p>Aucune publication</p>
     </ContainerPost>
-  ));
+  );
 }
 
 export default Post;

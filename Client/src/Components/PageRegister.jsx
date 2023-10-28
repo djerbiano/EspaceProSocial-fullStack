@@ -108,6 +108,7 @@ function PageRegister() {
     avatar: "",
     password: "",
   });
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -142,7 +143,7 @@ function PageRegister() {
     }
     formDataToSend.append("password", formData.password);
 
-    fetch(`http://localhost:3000/api/auth/register`, {
+    fetch(`${ApiAdresse}/api/auth/register`, {
       method: "POST",
       body: formDataToSend,
     })

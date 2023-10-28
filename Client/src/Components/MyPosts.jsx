@@ -156,6 +156,7 @@ function MyPosts(postId) {
   const idAdmin = process.env.REACT_APP_ID;
   const [authorsData, setAuthorsData] = useState({});
   const [noData, setNoData] = useState("");
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   const handleImageClick = (imageUrl) => {
     setFullScreen(true);
@@ -167,9 +168,12 @@ function MyPosts(postId) {
 
     try {
       await fetch(
-        `http://localhost:3000/api/posts/${userId}/post/${postIdToDelete}`,
+        `${ApiAdresse}/api/posts/${userId}/post/${postIdToDelete}`,
         {
           method: "DELETE",
+          headers: {
+            token: sessionStorage.getItem("token"),
+          }
         }
       );
     } catch (error) {
@@ -181,10 +185,9 @@ function MyPosts(postId) {
   useEffect(() => {
     setLoading(true);
 
-    fetch(`http://localhost:3000/api/posts/${userId}`, {
+    fetch(`${ApiAdresse}/api/posts/${userId}/myPosts`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
         token: sessionStorage.getItem("token"),
       },
     })
@@ -220,7 +223,12 @@ function MyPosts(postId) {
         if (!data[post.author]) {
           // Si non requête pour obtenir les données de l'auteur
           const response = await fetch(
-            `http://localhost:3000/api/users/${post.author}`
+            `${ApiAdresse}/api/users/${post.author}`,{
+              method: "GET",
+              headers: {
+                token: sessionStorage.getItem("token"),
+              },
+            }
           );
           const authorData = await response.json();
           data[post.author] = authorData;
@@ -231,6 +239,7 @@ function MyPosts(postId) {
     };
 
     fetchAuthorsData();
+    //eslint-disable-next-line 
   }, [posts]);
 
   const getUserIdClicked = (id) => {
@@ -246,7 +255,7 @@ function MyPosts(postId) {
         <ContainerPost key={post._id}>
           <AuthorPost onClick={() => getUserIdClicked(post.author)}>
             <img
-              src={`http://localhost:3000/${
+              src={`${ApiAdresse}/images/${
                 authorsData[post.author]?.avatar || "avatarDefault.jpg"
               }`}
               alt=""
@@ -270,10 +279,10 @@ function MyPosts(postId) {
           {post.picture && (
             <PicturePost>
               <img
-                src={`http://localhost:3000/${post.picture}`}
+                src={`${ApiAdresse}/images/${post.picture}`}
                 alt=""
                 onClick={() =>
-                  handleImageClick(`http://localhost:3000/${post.picture}`)
+                  handleImageClick(`${ApiAdresse}/images/${post.picture}`)
                 }
               />
             </PicturePost>

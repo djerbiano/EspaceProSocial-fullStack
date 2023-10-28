@@ -92,6 +92,7 @@ function Notification() {
   const [notifications, setNotifications] = useState(false);
   const [receivedInvitations, setReceivedInvitations] = useState([]);
   const currentUser = sessionStorage.getItem("userId");
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
   const afficherInvitations = () => {
     setNotifications(!notifications);
   };
@@ -99,11 +100,10 @@ function Notification() {
   // receivedInvitations list
   useEffect(() => {
     fetch(
-      `http://localhost:3000/api/friends/${sessionStorage.getItem("userId")}`,
+      `${ApiAdresse}/api/friends/${sessionStorage.getItem("userId")}`,
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
           token: sessionStorage.getItem("token"),
         },
       }
@@ -119,14 +119,14 @@ function Notification() {
       .catch((error) => {
         console.log(error);
       });
+      // eslint-disable-next-line
   }, []);
 
   //Accepter une invitation
   const accepterInvitation = (idClicked) => {
-    fetch(`http://localhost:3000/api/invitations/${currentUser}/${idClicked}`, {
+    fetch(`${ApiAdresse}/api/invitations/${currentUser}/${idClicked}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         token: sessionStorage.getItem("token"),
       },
     })
@@ -146,10 +146,9 @@ function Notification() {
 
   //refuser une invitation
   const refuserInvitation = (idClicked) => {
-    fetch(`http://localhost:3000/api/invitations/${currentUser}/${idClicked}`, {
+    fetch(`${ApiAdresse}/api/invitations/${currentUser}/${idClicked}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
         token: sessionStorage.getItem("token"),
       },
     })
@@ -193,7 +192,7 @@ function Notification() {
               {receivedInvitations.map((invitation) => (
                 <Invitation key={invitation.id}>
                   <img
-                    src={`http://localhost:3000/${invitation.avatar}`}
+                    src={`${ApiAdresse}/images/${invitation.avatar}`}
                     alt="avatar"
                     onClick={() => viewProfile(invitation.id)}
                   />

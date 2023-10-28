@@ -51,6 +51,7 @@ function SetPost() {
     post: "",
     picture: null,
   });
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
 
   const handleChange = (e) => {
     setUserId(sessionStorage.getItem("userId"));
@@ -81,9 +82,12 @@ function SetPost() {
     formDataToSend.append("post", formData.post);
     formDataToSend.append("image", formData.picture);
 
-    fetch(`http://localhost:3000/api/posts/${userId}/post`, {
+    fetch(`${ApiAdresse}/api/posts/${userId}/post`, {
       method: "POST",
       body: formDataToSend,
+      headers: {
+        token: sessionStorage.getItem("token"),
+      },
     })
       .then((res) => {
         if (!res.ok) {
@@ -116,9 +120,7 @@ function SetPost() {
 
         <br />
         <br />
-        {!error && (
-          <SubmitButton type="submit" value="Poster" />
-        )}
+        {!error && <SubmitButton type="submit" value="Poster" />}
         <ErrorMessage>{error ? error.message : ""}</ErrorMessage>
       </Form>
     </ContainerSetPost>

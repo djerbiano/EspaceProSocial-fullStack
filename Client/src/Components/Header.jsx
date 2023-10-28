@@ -65,7 +65,6 @@ const ProfileImage = styled.img`
   aspect-ratio: 1/1;
   border-radius: 50%;
   object-fit: cover;
-  
 `;
 
 const ContainerNotification = styled.div`
@@ -140,9 +139,14 @@ function Header() {
   const [user, setUser] = useState("");
   const [dataSearch, setDataSearch] = useState("");
   const navigate = useNavigate();
-
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
   useEffect(() => {
-    fetch(`http://localhost:3000/api/users/${id}`)
+    fetch(`${ApiAdresse}/api/users/${id}`, {
+      method: "GET",
+      headers: {
+        token: sessionStorage.getItem("token"),
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setAvatar(data.avatar);
@@ -150,11 +154,17 @@ function Header() {
       .catch((error) => {
         console.log(error);
       });
+      //eslint-disable-next-line
   }, [id]);
 
   useEffect(() => {
     if (user !== "") {
-      fetch(`http://localhost:3000/api/users/name/${user}`)
+      fetch(`${ApiAdresse}/api/users/name/${user}/${id}`, {
+        method: "GET",
+        headers: {
+          token: sessionStorage.getItem("token"),
+        },
+      })
         .then((res) => res.json())
         .then((data) => {
           setDataSearch(data);
@@ -163,6 +173,7 @@ function Header() {
           console.log(error);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleSearch = (e) => {
@@ -175,13 +186,13 @@ function Header() {
 
   const logOut = () => {
     sessionStorage.clear();
-  }
+  };
   return (
     <>
       <HeaderContainer>
         <LogoContainer>
           <Link to="/home">
-            <LogoImage src={logo} alt="logo" title="Home"/>
+            <LogoImage src={logo} alt="logo" title="Home" />
           </Link>
         </LogoContainer>
         <SearchBarContainer>
@@ -202,7 +213,7 @@ function Header() {
         <ProfileContainer>
           <Link to="/profile">
             <ProfileImage
-              src={`http://localhost:3000/${avatar}`}
+              src={`${ApiAdresse}/images/${avatar}`}
               alt={avatar}
             />
           </Link>
@@ -227,7 +238,7 @@ function Header() {
                 key={user._id}
                 onClick={() => getUserIdClicked(user._id)}
               >
-                <img src={`http://localhost:3000/${user.avatar}`} alt="" />
+                <img src={`${ApiAdresse}/images/${user.avatar}`} alt="" />
                 <p>
                   {user.userName}
                   {user.verifyProfile && <LogoVerifiyProfile />}

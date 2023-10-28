@@ -45,16 +45,15 @@ function Friends() {
   const navigate = useNavigate();
   //friends list
   const [friends, setFriends] = useState([]);
-
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
   useEffect(() => {
     // Get friends list
 
     fetch(
-      `http://localhost:3000/api/friends/${sessionStorage.getItem("userId")}`,
+      `${ApiAdresse}/api/friends/${sessionStorage.getItem("userId")}`,
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
           token: sessionStorage.getItem("token"),
         },
       }
@@ -66,6 +65,7 @@ function Friends() {
       .catch((error) => {
         console.log(error);
       });
+      //eslint-disable-next-line
   }, []);
 
   const viewProfile = (id) => {
@@ -78,7 +78,7 @@ function Friends() {
       <hr />
       {friends.map((friend) => (
         <Friend key={friend.id} onClick={() => viewProfile(friend.id)}>
-          <img src={`http://localhost:3000/${friend.avatar}`} alt="avatar" />
+          <img src={`${ApiAdresse}/images/${friend.avatar}`} alt="avatar" />
           <p>
             {friend.userName}
             {friend.verifyProfile && <LogoVerifiyProfile />}

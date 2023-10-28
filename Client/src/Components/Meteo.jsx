@@ -76,6 +76,7 @@ const Details = styled.div`
 function Meteo() {
   const [query, setQuery] = useState("");
   const [weatherData, setWeatherData] = useState("");
+  const [city2, setCity2] = useState("");
 
   const getWeatherIcon = (iconParameter) => {
     if (!iconParameter) {
@@ -84,13 +85,31 @@ function Meteo() {
     const icon = `https://openweathermap.org/img/wn/${iconParameter}@2x.png`;
     return <img src={icon} alt="" />;
   };
+
+  // get city of user
+  useEffect(() => {
+    fetch("https://ipapi.co/json")
+      .then((response) => response.json())
+      .then((data) => {
+        setCity2(data.city);
+      })
+      .catch((error) => {
+        searchWeather("usa");
+        console.error(
+          "Erreur :",
+          "Api-Meteo n'accepte pas les requêtes evoyées de votre pays"
+        );
+      });
+  }, []);
+
+  const cityUser = city2;
   const searchWeather = (city) => {
     getWeatherForCity(city)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((data) => {
             alert(data.message);
-           window.location.reload();
+            window.location.reload();
           });
         }
         return res.json();
@@ -100,8 +119,13 @@ function Meteo() {
       });
   };
   useEffect(() => {
-    searchWeather("mexico");
-  }, []);
+    if (cityUser) {
+      return searchWeather(cityUser);
+    } else {
+      return searchWeather("mexico");
+    }
+  }, [cityUser]);
+
   return (
     <ContainerMeteo>
       <h1>Méteo</h1>

@@ -17,11 +17,12 @@ const ContainerIntroProfilePage = styled.div`
 function IntroProfilePage() {
   const [id] = useState(sessionStorage.getItem("userId"));
   const [user, setUser] = useState({});
+  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
   useEffect(() => {
-    fetch(`http://localhost:3000/api/users/${id}`, {
+    fetch(`${ApiAdresse}/api/users/${id}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        token: sessionStorage.getItem("token"),
       },
     })
       .then((res) => res.json())
@@ -31,6 +32,7 @@ function IntroProfilePage() {
       .catch((error) => {
         console.log(error);
       });
+      //eslint-disable-next-line
   }, [id]);
   return (
     <ContainerIntroProfilePage>
