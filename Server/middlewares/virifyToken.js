@@ -13,7 +13,6 @@ function virifyToken(req, res, next) {
 
       // Ajouter les informations décodées à l'objet de requête pour une utilisation ultérieure
       req.user = decode;
-
       next();
     } catch (error) {
       res.status(401).json({ message: "invalid token" });

@@ -8,19 +8,19 @@ const route = express.Router();
 
 /******************************__Posts__****************************************/
 //Get all posts
-route.get("/", postController.getAllPosts);
+route.get("/:currentUser", virifyToken, postController.getAllPosts);
 
 //Get my posts
-route.get("/:currentUser", virifyToken, postController.getMyPosts);
+route.get("/:currentUser/myPosts", virifyToken, postController.getMyPosts);
 
 //Get one post
 route.get("/:currentUser/:postId", virifyToken, postController.getOnePost);
 
 //Add post
-route.post("/:userId/post", mult, postController.addPost);
+route.post("/:userId/post", virifyToken, mult, postController.addPost);
 
 //Delete post
-route.delete("/:userId/post/:postId", postController.deletePost);
+route.delete("/:userId/post/:postId", virifyToken, postController.deletePost);
 
 /******************************like & dislake Post****************************************/
 // like post
@@ -38,8 +38,5 @@ route.patch(
   virifyToken,
   likesDislikesController.dislikePost
 );
-
-
-
 
 module.exports = route;

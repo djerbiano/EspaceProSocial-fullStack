@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 const server = express();
 server.use(cors());
 server.use(express.json());
-server.use(express.static("images"));
+server.use("/images", express.static("images"));
 
 // Middleware pour analyser les données URL encodées des formulaires
 server.use(express.urlencoded({ extended: true }));
@@ -32,12 +32,15 @@ server.set("view engine", "ejs");
 server.use(logger);
 
 // Routes
-server.get("/", (req, res) => {
-  let errorMessage = "";
-  res.render("index", { errorMessage });
+server.get("/", async (req, res) => {
+  try {
+    return res.status(200).json({ message: "No access API" });
+  } catch (error) {
+    return res.status(404).json({ message: error });
+  }
 });
 server.use("/api/auth", authRoute);
-server.use("/api", verifSessionStorage );
+server.use("/api", verifSessionStorage);
 server.use("/api/users", userRoute);
 server.use("/api/posts", postsRoute);
 server.use("/api/comments", commentsRoute);
@@ -47,7 +50,7 @@ server.all("*", (req, res) => {
   res.status(404).send("<h1>Page not found</h1>");
 });
 
-// Middleware pour gérer les erreurs 
+// Middleware pour gérer les erreurs
 server.use(errMiddleware);
 
 // Démarrer le serveur

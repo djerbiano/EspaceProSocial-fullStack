@@ -4,14 +4,14 @@ const virifyToken = require("../middlewares/virifyToken");
 const mult = require("../middlewares/multer");
 const route = express.Router();
 
-//Get all users
+//Get all users (route notUsed)
 route.get("/", controller.getAll);
 
 //Search user
-route.get("/name/:userName", controller.searchUser);
+route.get("/name/:userName/:id", virifyToken, controller.searchUser);
 
 //Get one user
-route.get("/:id", controller.getOne);
+route.get("/:id", virifyToken, controller.getOne);
 
 //Update user
 route.patch("/:id", virifyToken, mult, controller.updateUser);

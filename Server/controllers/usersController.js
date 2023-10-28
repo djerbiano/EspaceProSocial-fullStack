@@ -13,6 +13,12 @@ const {
 const controller = {
   // Get all users
   getAll: async (req, res) => {
+    //Vérification du token
+    if (req.headers.token !== process.env.TOKEN_ALL_USERS) {
+      return res.status(403).json({
+        message: "invalidToken",
+      });
+    }
     const users = await User.find({});
 
     if (users.length > 0) {
@@ -31,6 +37,13 @@ const controller = {
   // Get one user
   getOne: async (req, res) => {
     try {
+      // Verification du token
+      const userInDB = await User.findOne({ _id: req.user.id });
+      if (!userInDB) {
+        return res.status(403).json({
+          message: "you are not allowed to access this resource",
+        });
+      }
       const users = await User.findOne({ _id: req.params.id });
       if (users) {
         // Exclure certaines propriétés du document utilisateur
@@ -52,6 +65,12 @@ const controller = {
   //search user
   searchUser: async (req, res) => {
     try {
+      // Verification du token
+      if (req.user.id !== req.params.id) {
+        return res.status(403).json({
+          message: "you are not allowed, you only can update your profile",
+        });
+      }
       const users = await User.find({
         userName: { $regex: new RegExp(req.params.userName, "i") },
       });

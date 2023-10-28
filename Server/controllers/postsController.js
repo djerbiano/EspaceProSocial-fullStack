@@ -9,15 +9,26 @@ const { post } = require("../routes/users");
 const controller = {
   //Get all posts
   getAllPosts: async (req, res) => {
-    const posts = await Post.find({}).populate("comments");
-
-    if (posts.length > 0) {
-      return res.status(200).json(posts);
-    } else {
-      return res
-        .status(404)
-        .json({ message: "There are no posts in the database" });
+try {
+    //Vérification du token
+    if (req.user.id !== req.params.currentUser) {
+      return res.status(403).json({
+        message: "Token non valide, veuillez vous reconnecter",
+      });
     }
+
+  const posts = await Post.find({}).populate("comments");
+
+  if (posts.length > 0) {
+    return res.status(200).json(posts);
+  } else {
+    return res
+      .status(200)
+      .json({ message: "There are no posts in the database" });
+  }
+} catch (error) {
+  return res.status(400).json({ message: error });
+}
   },
 
   //Get my posts
@@ -64,7 +75,6 @@ const controller = {
         },
         select: "-post -createdAt -updatedAt -__v",
       });
-
       if (post) {
         return res.status(200).json(post);
       }
@@ -78,6 +88,12 @@ const controller = {
   // Add post
   addPost: async (req, res) => {
     try {
+         //Vérification du token
+         if (req.user.id !== req.params.userId) {
+          return res.status(403).json({
+            message: "Token non valide, veuillez vous reconnecter",
+          });
+        }
       // Vérifier que l'utilisateur existe dans la base de données
       const user = await User.findOne({ _id: req.params.userId });
 
@@ -121,7 +137,7 @@ const controller = {
         }
       }
 
-      return res.status(400).json({ message: "invalid post" });
+      return res.status(400).json({ message: "Votre post doit avoir minimum 2 caractères", error });
     }
   },
 
@@ -129,6 +145,12 @@ const controller = {
 
   deletePost: async (req, res) => {
     try {
+        //Vérification du token
+        if (req.user.id !== req.params.userId) {
+          return res.status(403).json({
+            message: "Token non valide, veuillez vous reconnecter",
+          });
+        }
       const userId = req.params.userId;
 
       // Vérifier que l'utilisateur existe dans la base de données
