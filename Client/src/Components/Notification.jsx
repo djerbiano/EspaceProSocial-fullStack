@@ -92,7 +92,7 @@ function Notification() {
   const [notifications, setNotifications] = useState(false);
   const [receivedInvitations, setReceivedInvitations] = useState([]);
   const currentUser = sessionStorage.getItem("userId");
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
   const afficherInvitations = () => {
     setNotifications(!notifications);
   };

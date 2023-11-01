@@ -108,7 +108,7 @@ function PageRegister() {
     avatar: "",
     password: "",
   });
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
 
   const handleChange = (e) => {
     const { name, value } = e.target;

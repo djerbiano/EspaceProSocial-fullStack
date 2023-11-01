@@ -51,7 +51,7 @@ function SetPost() {
     post: "",
     picture: null,
   });
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
 
   const handleChange = (e) => {
     setUserId(sessionStorage.getItem("userId"));

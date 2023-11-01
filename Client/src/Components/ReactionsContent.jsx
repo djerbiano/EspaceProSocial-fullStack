@@ -49,7 +49,7 @@ const NumberOfReactions = styled.p`
 function ReactionsContent({ postId, currentUser }) {
   const [likeLength, setLikeLength] = useState();
   const [dislikeLength, setDislikeLength] = useState();
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
 
   // like post
   const stateOfLikesAndDislikes = () => {

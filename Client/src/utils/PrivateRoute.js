@@ -6,7 +6,7 @@ function PrivateRoute() {
   const id = sessionStorage.getItem("userId");
   const [isAuthorized, setIsAuthorized] = useState(null);
   const [loading, setLoading] = useState(true);
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
 
   useEffect(() => {
     if (token && id) {

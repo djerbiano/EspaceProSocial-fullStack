@@ -154,7 +154,7 @@ function Post(postId) {
   const userId = sessionStorage.getItem("userId");
   const idAdmin = process.env.REACT_APP_ID;
   const [authorsData, setAuthorsData] = useState({});
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
 
   const handleImageClick = (imageUrl) => {
     setFullScreen(true);
@@ -277,10 +277,10 @@ function Post(postId) {
         {post.picture && (
           <PicturePost>
             <img
-              src={`${ApiAdresse}/${post.picture}`}
+              src={`${ApiAdresse}/images/${post.picture}`}
               alt=""
               onClick={() =>
-                handleImageClick(`${ApiAdresse}/${post.picture}`)
+                handleImageClick(`${ApiAdresse}/images/${post.picture}`)
               }
             />
           </PicturePost>

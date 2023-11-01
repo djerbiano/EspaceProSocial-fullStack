@@ -45,7 +45,7 @@ function Friends() {
   const navigate = useNavigate();
   //friends list
   const [friends, setFriends] = useState([]);
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
   useEffect(() => {
     // Get friends list
 

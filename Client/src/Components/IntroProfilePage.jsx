@@ -17,7 +17,7 @@ const ContainerIntroProfilePage = styled.div`
 function IntroProfilePage() {
   const [id] = useState(sessionStorage.getItem("userId"));
   const [user, setUser] = useState({});
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
   useEffect(() => {
     fetch(`${ApiAdresse}/api/users/${id}`, {
       method: "GET",

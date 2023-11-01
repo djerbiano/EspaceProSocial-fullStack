@@ -156,7 +156,7 @@ function MyPosts(postId) {
   const idAdmin = process.env.REACT_APP_ID;
   const [authorsData, setAuthorsData] = useState({});
   const [noData, setNoData] = useState("");
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
 
   const handleImageClick = (imageUrl) => {
     setFullScreen(true);

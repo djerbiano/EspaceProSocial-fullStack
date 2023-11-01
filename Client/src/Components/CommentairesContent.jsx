@@ -98,7 +98,7 @@ function CommentairesContent(props) {
   const currentUser = sessionStorage.getItem("userId");
   const [comments, setComments] = useState([]);
   const [, setCommentId] = useState("");
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
   useEffect(() => {
     fetch(`${ApiAdresse}/api/posts/${currentUser}/${props.postId}`, {
       method: "GET",

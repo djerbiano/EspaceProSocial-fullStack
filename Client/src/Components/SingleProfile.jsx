@@ -101,7 +101,7 @@ function SingleProfile() {
   const [stateFriends, setStateFriends] = useState("");
   const [refuseInvitation, setRefuseInvitation] = useState(false);
   const [deleteInvitation, setDeleteInvitation] = useState(false);
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
 
   // information sur le user recherché
   useEffect(() => {

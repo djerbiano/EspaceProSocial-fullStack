@@ -139,7 +139,7 @@ function Header() {
   const [user, setUser] = useState("");
   const [dataSearch, setDataSearch] = useState("");
   const navigate = useNavigate();
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
   useEffect(() => {
     fetch(`${ApiAdresse}/api/users/${id}`, {
       method: "GET",
@@ -154,7 +154,7 @@ function Header() {
       .catch((error) => {
         console.log(error);
       });
-      //eslint-disable-next-line
+    //eslint-disable-next-line
   }, [id]);
 
   useEffect(() => {

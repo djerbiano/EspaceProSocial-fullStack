@@ -113,7 +113,7 @@ function PageConnexion() {
   };
 
   const handleSubmit = (e) => {
-    const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+    const ApiAdresse = process.env.REACT_APP_URL_SERVER;
     e.preventDefault();
 
     fetch(`${ApiAdresse}/api/auth/login`, {
@@ -187,7 +187,7 @@ function PageConnexion() {
             <LinksContainer>
               <Link2 to="/Register">S'inscrire</Link2>
               <Link22
-                href={process.env.REACT_APP_API_ADRESSE + "/api/auth/password"}
+                href={process.env.REACT_APP_URL_SERVER + "/api/auth/password"}
               >
                 Mot de passe oublié ?
               </Link22>

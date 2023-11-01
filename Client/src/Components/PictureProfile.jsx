@@ -171,7 +171,7 @@ function PictureProfile() {
   const id = sessionStorage.getItem("userId");
   const navigate = useNavigate();
   const verifyProfile = userInfo.verifyProfile;
-  const ApiAdresse = process.env.REACT_APP_API_ADRESSE;
+  const ApiAdresse = process.env.REACT_APP_URL_SERVER;
   const handleUpdateProfileClick = () => {
     navigate("/A-propos");
   };
